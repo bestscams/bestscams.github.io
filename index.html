@@ -4,6 +4,41 @@
   <meta charset="UTF-8">
   <title>Bewerbung</title>
   <link rel="stylesheet" href="style.css">
+
+  <!-- Einfache CSS für versteckte Elemente und Fehler -->
+  <style>
+    .hidden {
+      display: none;
+    }
+    .error {
+      color: red;
+    }
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 2em;
+    }
+    #banner {
+      background-image: url('https://source.unsplash.com/1600x400/?office'); /* z. B. beliebiges Bannerbild */
+      background-size: cover;
+      color: white;
+      padding: 4em 1em;
+    }
+    #banner h1 {
+      font-size: 3em;
+      margin: 0;
+    }
+    input {
+      padding: 0.5em;
+      margin: 1em 0;
+      width: 200px;
+    }
+    button {
+      padding: 0.5em 1em;
+      font-size: 1em;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
 
@@ -19,15 +54,15 @@
 
   <!-- E-Mail-Formular -->
   <div id="emailStep" class="hidden">
-    <label for="email">Deine E-Mail:</label>
-    <input type="email" id="email" required>
+    <label for="email">Deine E-Mail:</label><br>
+    <input type="email" id="email" required><br>
     <button id="emailNext">Weiter</button>
   </div>
 
   <!-- Code-Eingabe -->
   <div id="codeStep" class="hidden">
-    <label for="code">Bestätigungscode:</label>
-    <input type="number" id="code">
+    <label for="code">Bestätigungscode:</label><br>
+    <input type="number" id="code"><br>
     <button id="codeNext">Weiter</button>
     <p id="codeError" class="error hidden">Falscher Code</p>
   </div>
@@ -37,6 +72,14 @@
     <h2>Willkommen lol</h2>
   </div>
 
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    // EmailJS init – ersetze durch deinen echten Public Key
+    emailjs.init("KNWV92DeDx99Zg1T0");
+  </script>
+
+  <!-- Dein JS-Skript -->
   <script src="script.js"></script>
 </body>
 </html>
