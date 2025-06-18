@@ -1,58 +1,101 @@
-// EmailJS initialisieren
-emailjs.init("GG7YHgtAyAtoBSF8z"); // z. B. user_ABC123xyz
-
 let randomCode = "";
-
 const emailStep = document.getElementById("emailStep");
 const codeStep = document.getElementById("codeStep");
-const welcome = document.getElementById("welcome");
-const main = document.getElementById("main");
+const welcomeForm = document.getElementById("questionnaire");
+const final = document.getElementById("final");
 
-const startButton = document.getElementById("startButton");
-const emailNext = document.getElementById("emailNext");
-const codeNext = document.getElementById("codeNext");
-const codeError = document.getElementById("codeError");
-
-startButton.addEventListener("click", () => {
+document.getElementById("startButton").onclick = () => {
   document.getElementById("banner").classList.add("hidden");
-  main.classList.add("hidden");
+  document.getElementById("main").classList.add("hidden");
   emailStep.classList.remove("hidden");
-});
+};
 
-emailNext.addEventListener("click", () => {
+document.getElementById("emailNext").onclick = () => {
   const email = document.getElementById("email").value;
+  if (!email.includes("@")) return alert("Bitte gültige E-Mail-Adresse eingeben.");
 
-  if (!email.includes("@")) {
-    alert("Bitte gültige E-Mail-Adresse eingeben.");
-    return;
-  }
-
-  // 6-stelliger Zufallscode generieren
   randomCode = Math.floor(100000 + Math.random() * 900000).toString();
 
-  // E-Mail über EmailJS an den Benutzer senden
   emailjs.send("service_5a0dtz7", "template_wj8fyb2", {
     to_email: email,
     code: randomCode
   })
   .then(() => {
-    console.log("Bestätigungscode gesendet!");
     emailStep.classList.add("hidden");
     codeStep.classList.remove("hidden");
   })
-  .catch((error) => {
-    console.error("Fehler beim Senden der E-Mail:", error);
-    alert("E-Mail konnte nicht gesendet werden.");
-  });
-});
+  .catch(err => alert("Fehler beim Senden: " + err));
+};
 
-codeNext.addEventListener("click", () => {
-  const codeInput = document.getElementById("code").value;
-
-  if (codeInput === randomCode) {
+document.getElementById("codeNext").onclick = () => {
+  if (document.getElementById("code").value === randomCode) {
     codeStep.classList.add("hidden");
-    welcome.classList.remove("hidden");
+    welcomeForm.classList.remove("hidden");
   } else {
-    codeError.classList.remove("hidden");
+    document.getElementById("codeError").classList.remove("hidden");
   }
-});
+};
+
+// Dynamische Felder generieren
+window.onload = () => {
+  const tagSel = document.getElementById("tag");
+  const monatSel = document.getElementById("monat");
+  const jahrSel = document.getElementById("jahr");
+
+  for (let i = 1; i <= 31; i++) tagSel.innerHTML += `<option>${i}</option>`;
+  for (let i = 1; i <= 12; i++) monatSel.innerHTML += `<option>${i}</option>`;
+  for (let i = new Date().getFullYear(); i >= 1900; i--) jahrSel.innerHTML += `<option>${i}</option>`;
+
+  const accounts = ["YouTube", "TikTok", "Snapchat", "Discord", "Roblox"];
+  const accountDiv = document.getElementById("accounts");
+
+  accounts.forEach(name => {
+    const id = name.toLowerCase();
+    accountDiv.innerHTML += `
+      <div>
+        <label><input type="checkbox" id="${id}Check"> ${name}</label>
+        <input type="url" id="${id}Link" class="hidden" placeholder="Link zu deinem ${name}-Kanal">
+      </div>`;
+    
+    document.getElementById(`${id}Check`).addEventListener("change", function () {
+      document.getElementById(`${id}Link`).classList.toggle("hidden", !this.checked);
+    });
+  });
+
+  document.getElementById("land").addEventListener("change", function () {
+    document.getElementById("anderesLand").classList.toggle("hidden", this.value !== "Andere");
+  });
+};
+
+document.getElementById("questionnaire").onsubmit = function (e) {
+  e.preventDefault();
+
+  const form = e.target;
+  let antworten = {
+    vorname: form.vorname.value,
+    nachname: form.nachname.value,
+    geburtsdatum: `${form.tag.value}.${form.monat.value}.${form.jahr.value}`,
+    land: form.land.value === "Andere" ? form.anderesLand.value : form.land.value,
+    bundesland: form.bundesland.value,
+    geraete: form.geraete.value,
+    plattformen: form.plattformen.value,
+    stärken: form.staerken.value,
+    warumMitmachen: form.warumMitmachen.value,
+    warumWir: form.warumWir.value,
+    erwartung: form.erwartung.value,
+    onlinezeit: form.onlinezeit.value,
+    mitgliederzahl: form.mitgliederzahl.value,
+    angenommen: form.angenommen.value,
+    sicher: form.sicher.checked,
+  };
+
+  ["youtube", "tiktok", "snapchat", "discord", "roblox"].forEach(id => {
+    const check = document.getElementById(`${id}Check`).checked;
+    const link = document.getElementById(`${id}Link`).value;
+    antworten[id] = check ? link : "nein";
+  });
+
+  welcomeForm.classList.add("hidden");
+  final.classList.remove("hidden");
+  document.getElementById("summary").innerText = JSON.stringify(antworten, null, 2);
+};
