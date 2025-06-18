@@ -2,20 +2,14 @@ emailjs.init("GG7YHgtAyAtoBSF8z");
 
 let randomCode = "";
 
-const startButton = document.getElementById("startButton");
-const emailNext = document.getElementById("emailNext");
-const codeNext = document.getElementById("codeNext");
-const codeError = document.getElementById("codeError");
-const form = document.getElementById("form");
-
-startButton.addEventListener("click", () => {
-  document.getElementById("banner").classList.add("hidden");
-  document.getElementById("main").classList.add("hidden");
+// Navigation
+document.getElementById("startButton").addEventListener("click", () => {
+  document.getElementById("mainScreen").classList.add("hidden");
   document.getElementById("emailStep").classList.remove("hidden");
 });
 
-emailNext.addEventListener("click", () => {
-  const email = document.getElementById("email").value;
+document.getElementById("emailNext").addEventListener("click", () => {
+  const email = document.getElementById("email").value.trim();
 
   if (!email.includes("@")) {
     alert("Bitte gültige E-Mail-Adresse eingeben.");
@@ -28,55 +22,85 @@ emailNext.addEventListener("click", () => {
   emailjs.send("service_5a0dtz7", "template_wj8fyb2", {
     to_email: email,
     code: randomCode
-  })
-  .then(() => {
+  }).then(() => {
     document.getElementById("emailStep").classList.add("hidden");
     document.getElementById("codeStep").classList.remove("hidden");
-  })
-  .catch(err => {
+  }).catch(err => {
     console.error("Fehler beim Senden:", err);
     alert("Fehler beim Senden:\n" + (err.text || JSON.stringify(err)));
   });
 });
 
-codeNext.addEventListener("click", () => {
-  const codeInput = document.getElementById("code").value;
+document.getElementById("codeNext").addEventListener("click", () => {
+  const codeInput = document.getElementById("code").value.trim();
 
   if (codeInput === randomCode) {
     document.getElementById("codeStep").classList.add("hidden");
-    document.getElementById("questionnaire").classList.remove("hidden");
+    startQuestionnaire();
   } else {
-    codeError.classList.remove("hidden");
+    document.getElementById("codeError").classList.remove("hidden");
   }
 });
 
-document.getElementById("land").addEventListener("change", (e) => {
+function startQuestionnaire() {
+  document.getElementById("form").classList.remove("hidden");
+  const firstStep = document.querySelector(".questionStep");
+  firstStep.classList.add("active");
+}
+
+// Dynamik für "Andere" Länderfeld
+document.getElementById("land").addEventListener("change", e => {
   const andere = document.getElementById("landAndere");
-  andere.classList.toggle("hidden", e.target.value !== "Andere");
-  andere.required = e.target.value === "Andere";
+  if (e.target.value === "Andere") {
+    andere.classList.remove("hidden");
+    andere.required = true;
+  } else {
+    andere.classList.add("hidden");
+    andere.required = false;
+  }
 });
 
-["YouTube", "TikTok", "Snapchat", "Discord", "Roblox"].forEach(plattform => {
-  const check = document.getElementById(`${plattform}Check`);
-  const input = document.getElementById(`${plattform}Link`);
+// Navigation durch Fragen
+const steps = document.querySelectorAll(".questionStep");
+steps.forEach((step, index) => {
+  const nextBtn = step.querySelector(".nextBtn");
+  const inputs = step.querySelectorAll("input, textarea, select");
 
-  check.addEventListener("change", () => {
-    input.classList.toggle("hidden", !check.checked);
-    input.required = check.checked;
+  // Validierung aktivieren
+  inputs.forEach(input => {
+    input.addEventListener("input", () => {
+      const isValid = Array.from(inputs).every(el => {
+        if (el.type === "checkbox") return el.checked;
+        if (el.hasAttribute("minlength")) return el.value.length >= parseInt(el.getAttribute("minlength"));
+        if (el.hasAttribute("required")) return el.value.trim() !== "";
+        return true;
+      });
+      if (nextBtn) nextBtn.disabled = !isValid;
+    });
   });
+
+  if (nextBtn) {
+    nextBtn.addEventListener("click", () => {
+      step.classList.remove("active");
+      if (steps[index + 1]) {
+        steps[index + 1].classList.add("active");
+      }
+    });
+  }
 });
 
-form.addEventListener("submit", (e) => {
+// Formular abschicken
+document.getElementById("form").addEventListener("submit", e => {
   e.preventDefault();
-
-  const data = new FormData(form);
-  let answers = "";
+  const data = new FormData(e.target);
+  let output = "";
 
   for (let [key, value] of data.entries()) {
-    answers += `${key}: ${value}\n`;
+    output += `${key}: ${value}\n`;
   }
 
-  console.log("Gesammelte Antworten:\n", answers);
-  document.getElementById("questionnaire").classList.add("hidden");
+  console.log("Bewerbung gesendet:\n" + output);
+
+  document.getElementById("form").classList.add("hidden");
   document.getElementById("endScreen").classList.remove("hidden");
 });
