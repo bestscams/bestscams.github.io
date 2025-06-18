@@ -1,104 +1,82 @@
-let randomCode = "";
-const emailStep = document.getElementById("emailStep");
-const codeStep = document.getElementById("codeStep");
-const welcomeForm = document.getElementById("questionnaire");
-const final = document.getElementById("final");
+emailjs.init("GG7YHgtAyAtoBSF8z");
 
-document.getElementById("startButton").onclick = () => {
+let randomCode = "";
+
+const startButton = document.getElementById("startButton");
+const emailNext = document.getElementById("emailNext");
+const codeNext = document.getElementById("codeNext");
+const codeError = document.getElementById("codeError");
+const form = document.getElementById("form");
+
+startButton.addEventListener("click", () => {
   document.getElementById("banner").classList.add("hidden");
   document.getElementById("main").classList.add("hidden");
-  emailStep.classList.remove("hidden");
-};
+  document.getElementById("emailStep").classList.remove("hidden");
+});
 
-document.getElementById("emailNext").onclick = () => {
+emailNext.addEventListener("click", () => {
   const email = document.getElementById("email").value;
-  if (!email.includes("@")) return alert("Bitte gültige E-Mail-Adresse eingeben.");
+
+  if (!email.includes("@")) {
+    alert("Bitte gültige E-Mail-Adresse eingeben.");
+    return;
+  }
 
   randomCode = Math.floor(100000 + Math.random() * 900000).toString();
+  console.log("Generierter Code:", randomCode);
 
   emailjs.send("service_5a0dtz7", "template_wj8fyb2", {
     to_email: email,
     code: randomCode
   })
   .then(() => {
-    emailStep.classList.add("hidden");
-    codeStep.classList.remove("hidden");
+    document.getElementById("emailStep").classList.add("hidden");
+    document.getElementById("codeStep").classList.remove("hidden");
   })
   .catch(err => {
-  console.error("Fehler beim Senden der E-Mail:", err);
-  alert("Fehler beim Senden:\n" + (err.text || JSON.stringify(err)));
+    console.error("Fehler beim Senden:", err);
+    alert("Fehler beim Senden:\n" + (err.text || JSON.stringify(err)));
+  });
 });
-};
 
-document.getElementById("codeNext").onclick = () => {
-  if (document.getElementById("code").value === randomCode) {
-    codeStep.classList.add("hidden");
-    welcomeForm.classList.remove("hidden");
+codeNext.addEventListener("click", () => {
+  const codeInput = document.getElementById("code").value;
+
+  if (codeInput === randomCode) {
+    document.getElementById("codeStep").classList.add("hidden");
+    document.getElementById("questionnaire").classList.remove("hidden");
   } else {
-    document.getElementById("codeError").classList.remove("hidden");
+    codeError.classList.remove("hidden");
   }
-};
+});
 
-// Dynamische Felder generieren
-window.onload = () => {
-  const tagSel = document.getElementById("tag");
-  const monatSel = document.getElementById("monat");
-  const jahrSel = document.getElementById("jahr");
+document.getElementById("land").addEventListener("change", (e) => {
+  const andere = document.getElementById("landAndere");
+  andere.classList.toggle("hidden", e.target.value !== "Andere");
+  andere.required = e.target.value === "Andere";
+});
 
-  for (let i = 1; i <= 31; i++) tagSel.innerHTML += `<option>${i}</option>`;
-  for (let i = 1; i <= 12; i++) monatSel.innerHTML += `<option>${i}</option>`;
-  for (let i = new Date().getFullYear(); i >= 1900; i--) jahrSel.innerHTML += `<option>${i}</option>`;
+["YouTube", "TikTok", "Snapchat", "Discord", "Roblox"].forEach(plattform => {
+  const check = document.getElementById(`${plattform}Check`);
+  const input = document.getElementById(`${plattform}Link`);
 
-  const accounts = ["YouTube", "TikTok", "Snapchat", "Discord", "Roblox"];
-  const accountDiv = document.getElementById("accounts");
-
-  accounts.forEach(name => {
-    const id = name.toLowerCase();
-    accountDiv.innerHTML += `
-      <div>
-        <label><input type="checkbox" id="${id}Check"> ${name}</label>
-        <input type="url" id="${id}Link" class="hidden" placeholder="Link zu deinem ${name}-Kanal">
-      </div>`;
-    
-    document.getElementById(`${id}Check`).addEventListener("change", function () {
-      document.getElementById(`${id}Link`).classList.toggle("hidden", !this.checked);
-    });
+  check.addEventListener("change", () => {
+    input.classList.toggle("hidden", !check.checked);
+    input.required = check.checked;
   });
+});
 
-  document.getElementById("land").addEventListener("change", function () {
-    document.getElementById("anderesLand").classList.toggle("hidden", this.value !== "Andere");
-  });
-};
-
-document.getElementById("questionnaire").onsubmit = function (e) {
+form.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  const form = e.target;
-  let antworten = {
-    vorname: form.vorname.value,
-    nachname: form.nachname.value,
-    geburtsdatum: `${form.tag.value}.${form.monat.value}.${form.jahr.value}`,
-    land: form.land.value === "Andere" ? form.anderesLand.value : form.land.value,
-    bundesland: form.bundesland.value,
-    geraete: form.geraete.value,
-    plattformen: form.plattformen.value,
-    stärken: form.staerken.value,
-    warumMitmachen: form.warumMitmachen.value,
-    warumWir: form.warumWir.value,
-    erwartung: form.erwartung.value,
-    onlinezeit: form.onlinezeit.value,
-    mitgliederzahl: form.mitgliederzahl.value,
-    angenommen: form.angenommen.value,
-    sicher: form.sicher.checked,
-  };
+  const data = new FormData(form);
+  let answers = "";
 
-  ["youtube", "tiktok", "snapchat", "discord", "roblox"].forEach(id => {
-    const check = document.getElementById(`${id}Check`).checked;
-    const link = document.getElementById(`${id}Link`).value;
-    antworten[id] = check ? link : "nein";
-  });
+  for (let [key, value] of data.entries()) {
+    answers += `${key}: ${value}\n`;
+  }
 
-  welcomeForm.classList.add("hidden");
-  final.classList.remove("hidden");
-  document.getElementById("summary").innerText = JSON.stringify(antworten, null, 2);
-};
+  console.log("Gesammelte Antworten:\n", answers);
+  document.getElementById("questionnaire").classList.add("hidden");
+  document.getElementById("endScreen").classList.remove("hidden");
+});
