@@ -1,5 +1,5 @@
 // EmailJS initialisieren
-emailjs.init("KNWV92DeDx99Zg1T0"); // z. B. user_ABC123xyz
+emailjs.init("GG7YHgtAyAtoBSF8z"); // z. B. user_ABC123xyz
 
 let randomCode = "";
 
