@@ -1,15 +1,42 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <title>Meine erste HTML-Seite</title>
+  <meta charset="UTF-8">
+  <title>Bewerbung</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Willkommen auf meiner Webseite!</h1>
-    <p>Das ist ein Beispiel für eine einfache HTML-Seite mit Text, Bild und Link.</p>
 
-    <img src="https://via.placeholder.com/300x200" alt="Beispielbild" width="300" height="200">
+  <!-- Banner -->
+  <div id="banner">
+    <h1>Bewerbung</h1>
+  </div>
 
-    <p>Besuche <a href="https://www.wikipedia.org/" target="_blank">Wikipedia</a>, um mehr zu erfahren.</p>
+  <!-- Hauptbereich -->
+  <div id="main">
+    <button id="startButton">Bewerben</button>
+  </div>
+
+  <!-- E-Mail-Formular -->
+  <div id="emailStep" class="hidden">
+    <label for="email">Deine E-Mail:</label>
+    <input type="email" id="email" required>
+    <button id="emailNext">Weiter</button>
+  </div>
+
+  <!-- Code-Eingabe -->
+  <div id="codeStep" class="hidden">
+    <label for="code">Bestätigungscode:</label>
+    <input type="number" id="code">
+    <button id="codeNext">Weiter</button>
+    <p id="codeError" class="error hidden">Falscher Code</p>
+  </div>
+
+  <!-- Willkommen -->
+  <div id="welcome" class="hidden">
+    <h2>Willkommen lol</h2>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
