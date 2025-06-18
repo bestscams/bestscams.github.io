@@ -19,7 +19,7 @@ document.getElementById("emailNext").addEventListener("click", () => {
   randomCode = Math.floor(100000 + Math.random() * 900000).toString();
 
   // Sende E-Mail über Formspree
-  fetch("https://formspree.io/f/YOUR_FORM_ID", {
+  fetch("https://formspree.io/f/mldnlwny", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
