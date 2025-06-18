@@ -4,53 +4,37 @@
   <meta charset="UTF-8">
   <title>Bewerbung</title>
   <link rel="stylesheet" href="style.css">
-
-  <!-- Einfache CSS für versteckte Elemente und Fehler -->
   <style>
-    .hidden {
-      display: none;
-    }
-    .error {
-      color: red;
-    }
-    body {
-      font-family: sans-serif;
-      text-align: center;
-      padding: 2em;
-    }
+    .hidden { display: none; }
+    .error { color: red; }
+    body { font-family: sans-serif; text-align: center; padding: 2em; }
     #banner {
-      background-image: url('https://source.unsplash.com/1600x400/?office'); /* z. B. beliebiges Bannerbild */
+      background-image: url('https://source.unsplash.com/1600x400/?office');
       background-size: cover;
       color: white;
       padding: 4em 1em;
     }
-    #banner h1 {
-      font-size: 3em;
-      margin: 0;
-    }
-    input {
+    #banner h1 { font-size: 3em; margin: 0; }
+    input, select, textarea {
       padding: 0.5em;
-      margin: 1em 0;
-      width: 200px;
+      margin: 0.5em 0;
+      width: 250px;
     }
+    textarea { height: 100px; }
     button {
       padding: 0.5em 1em;
       font-size: 1em;
       cursor: pointer;
+      margin: 1em;
     }
+    form > div { margin-bottom: 1em; }
+    .checkbox-group label { margin-right: 1em; }
   </style>
 </head>
 <body>
 
-  <!-- Banner -->
-  <div id="banner">
-    <h1>Bewerbung</h1>
-  </div>
-
-  <!-- Hauptbereich -->
-  <div id="main">
-    <button id="startButton">Bewerben</button>
-  </div>
+  <div id="banner"><h1>Bewerbung</h1></div>
+  <div id="main"><button id="startButton">Bewerben</button></div>
 
   <!-- E-Mail-Formular -->
   <div id="emailStep" class="hidden">
@@ -67,19 +51,68 @@
     <p id="codeError" class="error hidden">Falscher Code</p>
   </div>
 
-  <!-- Willkommen -->
-  <div id="welcome" class="hidden">
-    <h2>Willkommen lol</h2>
+  <!-- Fragenformular -->
+  <form id="questionnaire" class="hidden">
+    <div><input type="text" placeholder="Vorname" id="vorname" required><br>
+         <input type="text" placeholder="Nachname" id="nachname" required></div>
+
+    <div>
+      <label>Geburtsdatum:</label><br>
+      <select id="tag" required><option value="">Tag</option></select>
+      <select id="monat" required><option value="">Monat</option></select>
+      <select id="jahr" required><option value="">Jahr</option></select>
+    </div>
+
+    <div>
+      <label>Aus welchem Land kommst du?</label><br>
+      <select id="land" required>
+        <option value="">Bitte wählen</option>
+        <option value="Deutschland">Deutschland</option>
+        <option value="Österreich">Österreich</option>
+        <option value="Schweiz">Schweiz</option>
+        <option value="Andere">Andere</option>
+      </select><br>
+      <input type="text" id="anderesLand" class="hidden" placeholder="Bitte Land angeben">
+    </div>
+
+    <input type="text" id="bundesland" placeholder="Bundesland" required><br>
+    <input type="text" id="geraete" placeholder="Geräte (z.B. iPhone 14 Pro)" required><br>
+    <input type="text" id="plattformen" placeholder="Plattformen (z.B. CapCut, Roblox)" required><br>
+    <textarea id="staerken" placeholder="Stärken im Bereich" minlength="300" required></textarea><br>
+
+    <!-- YouTube, TikTok, Snapchat, Discord, Roblox (Checkbox mit optionalem Link) -->
+    <div id="accounts"></div>
+
+    <textarea id="warumMitmachen" placeholder="Warum möchtest du mitmachen?" minlength="300" required></textarea><br>
+    <textarea id="warumWir" placeholder="Warum ausgerechnet uns?" minlength="300" required></textarea><br>
+    <textarea id="erwartung" placeholder="Was erwartest du von uns?" minlength="300" required></textarea><br>
+
+    <label>Wie oft bist du online?</label><br>
+    <select id="onlinezeit" required>
+      <option value="">Bitte wählen</option>
+      <option>1–5h pro Tag</option>
+      <option>5–12h pro Tag</option>
+      <option>Ich bin fast immer online</option>
+    </select><br>
+
+    <input type="number" id="mitgliederzahl" placeholder="Wie viele Mitglieder hat BestScams?" required><br>
+    <textarea id="angenommen" placeholder="Wird deine Bewerbung angenommen?" minlength="100" required></textarea><br>
+
+    <label><input type="checkbox" id="sicher" required> Ja, ich möchte mitmachen</label><br>
+
+    <button type="submit">Absenden</button>
+  </form>
+
+  <!-- Ende -->
+  <div id="final" class="hidden">
+    <h2>Hier wird noch gearbeitet</h2>
+    <pre id="summary"></pre>
   </div>
 
-  <!-- EmailJS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script>
-    // EmailJS init – ersetze durch deinen echten Public Key
     emailjs.init("KNWV92DeDx99Zg1T0");
   </script>
-
-  <!-- Dein JS-Skript -->
   <script src="script.js"></script>
 </body>
 </html>
