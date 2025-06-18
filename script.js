@@ -1,45 +1,58 @@
+// EmailJS initialisieren
+emailjs.init("KNWV92DeDx99Zg1T0"); // z. B. user_ABC123xyz
+
 let randomCode = "";
+
 const emailStep = document.getElementById("emailStep");
 const codeStep = document.getElementById("codeStep");
 const welcome = document.getElementById("welcome");
 const main = document.getElementById("main");
 
-document.getElementById("startButton").addEventListener("click", () => {
+const startButton = document.getElementById("startButton");
+const emailNext = document.getElementById("emailNext");
+const codeNext = document.getElementById("codeNext");
+const codeError = document.getElementById("codeError");
+
+startButton.addEventListener("click", () => {
   document.getElementById("banner").classList.add("hidden");
   main.classList.add("hidden");
   emailStep.classList.remove("hidden");
 });
 
-document.getElementById("emailNext").addEventListener("click", () => {
+emailNext.addEventListener("click", () => {
   const email = document.getElementById("email").value;
 
-  if (!email.includes("@")) return alert("Bitte gültige E-Mail eingeben.");
+  if (!email.includes("@")) {
+    alert("Bitte gültige E-Mail-Adresse eingeben.");
+    return;
+  }
 
-  // Zufälliger 6-stelliger Code
+  // 6-stelliger Zufallscode generieren
   randomCode = Math.floor(100000 + Math.random() * 900000).toString();
 
-  // Sende E-Mail über Formspree
-  fetch("https://formspree.io/f/mldnlwny", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      email: email,
-      message: `Dein Bestätigungscode: ${randomCode}`
-    })
+  // E-Mail über EmailJS an den Benutzer senden
+  emailjs.send("service_5a0dtz7", "template_wj8fyb2", {
+    to_email: email,
+    code: randomCode
+  })
+  .then(() => {
+    console.log("Bestätigungscode gesendet!");
+    emailStep.classList.add("hidden");
+    codeStep.classList.remove("hidden");
+  })
+  .catch((error) => {
+    console.error("Fehler beim Senden der E-Mail:", error);
+    alert("E-Mail konnte nicht gesendet werden.");
   });
-
-  emailStep.classList.add("hidden");
-  codeStep.classList.remove("hidden");
 });
 
-document.getElementById("codeNext").addEventListener("click", () => {
+codeNext.addEventListener("click", () => {
   const codeInput = document.getElementById("code").value;
-  const error = document.getElementById("codeError");
 
   if (codeInput === randomCode) {
     codeStep.classList.add("hidden");
     welcome.classList.remove("hidden");
   } else {
-    error.classList.remove("hidden");
+    codeError.classList.remove("hidden");
   }
 });
