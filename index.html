@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Bewerbung</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
   <style>
     .hidden { display: none; }
     .error { color: red; }
@@ -17,102 +17,150 @@
     #banner h1 { font-size: 3em; margin: 0; }
     input, select, textarea {
       padding: 0.5em;
-      margin: 0.5em 0;
+      margin: 1em 0;
       width: 250px;
     }
-    textarea { height: 100px; }
     button {
       padding: 0.5em 1em;
       font-size: 1em;
       cursor: pointer;
-      margin: 1em;
     }
-    form > div { margin-bottom: 1em; }
-    .checkbox-group label { margin-right: 1em; }
+    .question { margin: 2em 0; }
   </style>
 </head>
 <body>
 
   <div id="banner"><h1>Bewerbung</h1></div>
-  <div id="main"><button id="startButton">Bewerben</button></div>
 
-  <!-- E-Mail-Formular -->
+  <div id="main">
+    <button id="startButton">Bewerben</button>
+  </div>
+
   <div id="emailStep" class="hidden">
-    <label for="email">Deine E-Mail:</label><br>
-    <input type="email" id="email" required><br>
+    <label for="email">Deine E-Mail:</label><br />
+    <input type="email" id="email" required /><br />
     <button id="emailNext">Weiter</button>
   </div>
 
-  <!-- Code-Eingabe -->
   <div id="codeStep" class="hidden">
-    <label for="code">Bestätigungscode:</label><br>
-    <input type="number" id="code"><br>
+    <label for="code">Bestätigungscode:</label><br />
+    <input type="number" id="code" /><br />
     <button id="codeNext">Weiter</button>
     <p id="codeError" class="error hidden">Falscher Code</p>
   </div>
 
-  <!-- Fragenformular -->
-  <form id="questionnaire" class="hidden">
-    <div><input type="text" placeholder="Vorname" id="vorname" required><br>
-         <input type="text" placeholder="Nachname" id="nachname" required></div>
+  <div id="questionnaire" class="hidden">
+    <form id="form">
+      <div class="question">
+        <label>1. Wie heißt du?<br /></label>
+        <input type="text" placeholder="Vorname" required name="vorname" />
+        <input type="text" placeholder="Nachname" required name="nachname" />
+      </div>
 
-    <div>
-      <label>Geburtsdatum:</label><br>
-      <select id="tag" required><option value="">Tag</option></select>
-      <select id="monat" required><option value="">Monat</option></select>
-      <select id="jahr" required><option value="">Jahr</option></select>
-    </div>
+      <div class="question">
+        <label>2. Wann wurdest du geboren?</label><br />
+        <select required name="tag">
+          <option value="">Tag</option>
+          ${[...Array(31).keys()].map(i => `<option>${i + 1}</option>`).join('')}
+        </select>
+        <select required name="monat">
+          <option value="">Monat</option>
+          ${[...Array(12).keys()].map(i => `<option>${i + 1}</option>`).join('')}
+        </select>
+        <select required name="jahr">
+          <option value="">Jahr</option>
+          ${[...Array(80).keys()].map(i => `<option>${2025 - i}</option>`).join('')}
+        </select>
+      </div>
 
-    <div>
-      <label>Aus welchem Land kommst du?</label><br>
-      <select id="land" required>
-        <option value="">Bitte wählen</option>
-        <option value="Deutschland">Deutschland</option>
-        <option value="Österreich">Österreich</option>
-        <option value="Schweiz">Schweiz</option>
-        <option value="Andere">Andere</option>
-      </select><br>
-      <input type="text" id="anderesLand" class="hidden" placeholder="Bitte Land angeben">
-    </div>
+      <div class="question">
+        <label>3. Aus welchem Land kommst du?</label><br />
+        <select id="land" name="land" required>
+          <option value="">Bitte wählen</option>
+          <option>Deutschland</option>
+          <option>Österreich</option>
+          <option>Schweiz</option>
+          <option>Andere</option>
+        </select><br />
+        <input type="text" id="landAndere" name="landAndere" class="hidden" placeholder="Welches Land?" />
+      </div>
 
-    <input type="text" id="bundesland" placeholder="Bundesland" required><br>
-    <input type="text" id="geraete" placeholder="Geräte (z.B. iPhone 14 Pro)" required><br>
-    <input type="text" id="plattformen" placeholder="Plattformen (z.B. CapCut, Roblox)" required><br>
-    <textarea id="staerken" placeholder="Stärken im Bereich" minlength="300" required></textarea><br>
+      <div class="question">
+        <label>4. Aus welchem Bundesland kommst du?</label><br />
+        <input type="text" name="bundesland" required />
+      </div>
 
-    <!-- YouTube, TikTok, Snapchat, Discord, Roblox (Checkbox mit optionalem Link) -->
-    <div id="accounts"></div>
+      <div class="question">
+        <label>5. Über welche Geräte verfügst du?</label><br />
+        <input type="text" name="geräte" required />
+      </div>
 
-    <textarea id="warumMitmachen" placeholder="Warum möchtest du mitmachen?" minlength="300" required></textarea><br>
-    <textarea id="warumWir" placeholder="Warum ausgerechnet uns?" minlength="300" required></textarea><br>
-    <textarea id="erwartung" placeholder="Was erwartest du von uns?" minlength="300" required></textarea><br>
+      <div class="question">
+        <label>6. Mit welchen Plattformen arbeitest du regelmäßig?</label><br />
+        <input type="text" name="plattformen" required />
+      </div>
 
-    <label>Wie oft bist du online?</label><br>
-    <select id="onlinezeit" required>
-      <option value="">Bitte wählen</option>
-      <option>1–5h pro Tag</option>
-      <option>5–12h pro Tag</option>
-      <option>Ich bin fast immer online</option>
-    </select><br>
+      <div class="question">
+        <label>7. Was sind deine Stärken im Bereich?</label><br />
+        <textarea name="stärken" minlength="300" required></textarea>
+      </div>
 
-    <input type="number" id="mitgliederzahl" placeholder="Wie viele Mitglieder hat BestScams?" required><br>
-    <textarea id="angenommen" placeholder="Wird deine Bewerbung angenommen?" minlength="100" required></textarea><br>
+      ${["YouTube", "TikTok", "Snapchat", "Discord", "Roblox"].map(plattform => `
+      <div class="question">
+        <label>Machst du ${plattform}?</label><br />
+        <input type="checkbox" id="${plattform}Check" /> Ja<br />
+        <input type="url" id="${plattform}Link" class="hidden" placeholder="Link zu deinem ${plattform}" />
+      </div>`).join('')}
 
-    <label><input type="checkbox" id="sicher" required> Ja, ich möchte mitmachen</label><br>
+      <div class="question">
+        <label>12. Warum möchtest du mitmachen?</label><br />
+        <textarea name="warum" minlength="300" required></textarea>
+      </div>
 
-    <button type="submit">Absenden</button>
-  </form>
+      <div class="question">
+        <label>13. Warum ausgerechnet uns?</label><br />
+        <textarea name="warumWir" minlength="300" required></textarea>
+      </div>
 
-  <!-- Ende -->
-  <div id="final" class="hidden">
+      <div class="question">
+        <label>14. Was erwartest du von uns?</label><br />
+        <textarea name="erwartung" minlength="300" required></textarea>
+      </div>
+
+      <div class="question">
+        <label>15. Wie oft bist du online?</label><br />
+        <select name="onlineZeit" required>
+          <option value="">Bitte wählen</option>
+          <option>1–5h pro Tag</option>
+          <option>5–12h pro Tag</option>
+          <option>Ich bin fast immer online</option>
+        </select>
+      </div>
+
+      <div class="question">
+        <label>16. Wie viele Mitglieder hat BestScams aktuell?</label><br />
+        <input type="number" name="mitglieder" required />
+      </div>
+
+      <div class="question">
+        <label>17. Denkst du, deine Bewerbung wird angenommen?</label><br />
+        <textarea name="selbsteinschätzung" minlength="100" required></textarea>
+      </div>
+
+      <div class="question">
+        <label>18. Bist du dir sicher, dass du uns anschließen möchtest?</label><br />
+        <input type="checkbox" name="sicher" required /> Ja
+      </div>
+
+      <button type="submit">Absenden</button>
+    </form>
+  </div>
+
+  <div id="endScreen" class="hidden">
     <h2>Hier wird noch gearbeitet</h2>
-    <pre id="summary"></pre>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-  <script>
-    emailjs.init("GG7YHgtAyAtoBSF8z
-  </script>
   <script src="script.js"></script>
 </body>
 </html>
