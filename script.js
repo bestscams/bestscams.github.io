@@ -24,7 +24,10 @@ document.getElementById("emailNext").onclick = () => {
     emailStep.classList.add("hidden");
     codeStep.classList.remove("hidden");
   })
-  .catch(err => alert("Fehler beim Senden: " + err));
+  .catch(err => {
+  console.error("Fehler beim Senden der E-Mail:", err);
+  alert("Fehler beim Senden:\n" + (err.text || JSON.stringify(err)));
+});
 };
 
 document.getElementById("codeNext").onclick = () => {
