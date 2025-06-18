@@ -2,16 +2,18 @@ emailjs.init("GG7YHgtAyAtoBSF8z");
 
 let randomCode = "";
 
-// Navigation
+// Schritt 1 – Start
 document.getElementById("startButton").addEventListener("click", () => {
   document.getElementById("mainScreen").classList.add("hidden");
   document.getElementById("emailStep").classList.remove("hidden");
 });
 
+// Schritt 2 – E-Mail
 document.getElementById("emailNext").addEventListener("click", () => {
   const email = document.getElementById("email").value.trim();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  if (!email.includes("@")) {
+  if (!emailRegex.test(email)) {
     alert("Bitte gültige E-Mail-Adresse eingeben.");
     return;
   }
@@ -31,9 +33,9 @@ document.getElementById("emailNext").addEventListener("click", () => {
   });
 });
 
+// Schritt 3 – Code prüfen
 document.getElementById("codeNext").addEventListener("click", () => {
   const codeInput = document.getElementById("code").value.trim();
-
   if (codeInput === randomCode) {
     document.getElementById("codeStep").classList.add("hidden");
     startQuestionnaire();
@@ -42,13 +44,30 @@ document.getElementById("codeNext").addEventListener("click", () => {
   }
 });
 
+// Schritt 4 – Fragen starten
 function startQuestionnaire() {
   document.getElementById("form").classList.remove("hidden");
   const firstStep = document.querySelector(".questionStep");
   firstStep.classList.add("active");
 }
 
-// Dynamik für "Andere" Länderfeld
+// Dynamische Geburtstagsfelder
+const tagSelect = document.querySelector('select[name="tag"]');
+const monatSelect = document.querySelector('select[name="monat"]');
+const jahrSelect = document.querySelector('select[name="jahr"]');
+
+for (let i = 1; i <= 31; i++) {
+  tagSelect.innerHTML += `<option value="${i}">${i}</option>`;
+}
+for (let i = 1; i <= 12; i++) {
+  monatSelect.innerHTML += `<option value="${i}">${i}</option>`;
+}
+for (let i = 0; i < 80; i++) {
+  const jahr = 2025 - i;
+  jahrSelect.innerHTML += `<option value="${jahr}">${jahr}</option>`;
+}
+
+// „Andere“ Länderfeld sichtbar machen
 document.getElementById("land").addEventListener("change", e => {
   const andere = document.getElementById("landAndere");
   if (e.target.value === "Andere") {
@@ -66,7 +85,6 @@ steps.forEach((step, index) => {
   const nextBtn = step.querySelector(".nextBtn");
   const inputs = step.querySelectorAll("input, textarea, select");
 
-  // Validierung aktivieren
   inputs.forEach(input => {
     input.addEventListener("input", () => {
       const isValid = Array.from(inputs).every(el => {
@@ -84,6 +102,7 @@ steps.forEach((step, index) => {
       step.classList.remove("active");
       if (steps[index + 1]) {
         steps[index + 1].classList.add("active");
+        steps[index + 1].scrollIntoView({ behavior: "smooth" });
       }
     });
   }
