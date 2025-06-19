@@ -1,64 +1,126 @@
-body {
-  font-family: Arial, sans-serif;
-  text-align: center;
+/* style.css */
+/* Farbpalette */
+:root {
+  --green-light: #a8e6cf;
+  --green-mid:  #56c596;
+  --green-dark: #379683;
+  --white:      #ffffff;
+  --shadow:     rgba(0, 0, 0, 0.2);
+  --font-main:  'Luckiest Guy', cursive;
+}
+
+* {
   margin: 0;
   padding: 0;
-  background-color: #f5f5f5;
-}
-
-#banner {
-  background-image: url('https://source.unsplash.com/1600x400/?office');
-  background-size: cover;
-  background-position: center;
-  color: white;
-  padding: 60px 20px;
-  font-size: 36px;
-}
-
-main, form {
-  padding: 20px;
-}
-
-input, select, textarea, button {
-  margin-top: 10px;
-  padding: 10px;
-  width: 90%;
-  max-width: 400px;
-  font-size: 1em;
   box-sizing: border-box;
 }
 
-textarea {
-  height: 120px;
-  resize: vertical;
+body {
+  font-family: var(--font-main);
+  color: var(--white);
+  overflow: hidden;
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--green-dark);
 }
 
-button {
-  cursor: pointer;
-  background-color: #007BFF;
-  color: white;
-  border: none;
-  margin-top: 20px;
-  border-radius: 4px;
+/* Animierte Hintergrund-Shapes */
+.background {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, var(--green-light), var(--green-dark));
+  animation: rotateBg 30s linear infinite;
+  z-index: -1;
 }
 
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+@keyframes rotateBg {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
-.hidden {
-  display: none;
+header {
+  text-align: center;
+  animation: fadeInUp 1s ease-out both;
 }
 
-.error {
-  color: red;
+.title {
+  font-size: 3rem;
+  text-shadow: 2px 2px var(--shadow);
 }
 
-.questionStep {
-  display: none;
+.tagline {
+  font-size: 1.2rem;
+  margin-top: 0.5rem;
+  opacity: 0.8;
 }
 
-.questionStep.active {
-  display: block;
+/* Buttons */
+.buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  animation: fadeInUp 1.5s ease-out both;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: var(--green-mid);
+  border-radius: 50px;
+  text-decoration: none;
+  color: var(--white);
+  font-size: 1.1rem;
+  box-shadow: 0 4px 6px var(--shadow);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 10px var(--shadow);
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0; left: -100%;
+  background: rgba(255,255,255,0.2);
+  transform: skewX(-20deg);
+  transition: left 0.5s ease;
+}
+
+.btn:hover::after {
+  left: 200%;
+}
+
+/* Footer */
+footer {
+  position: absolute;
+  bottom: 1rem;
+  text-align: center;
+  width: 100%;
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+/* Keyframe-Animationen */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
