@@ -1,113 +1,30 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <title>Bewerbung</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MM2 Godlys Shop</title>
+  <!-- Google Font: Luckiest Guy (Cartoon-Style) -->
+  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <div id="banner"><h1>Bewerbung</h1></div>
-
+  <div class="background"></div>
+  <header>
+    <h1 class="title">MM2 Godlys günstig kaufen!</h1>
+    <p class="tagline">Dein vertrauenswürdiger Robux-Shop</p>
+  </header>
   <main>
-    <div id="mainScreen">
-      <button id="startButton">Jetzt Bewerben</button>
-    </div>
-
-    <div id="emailStep" class="hidden">
-      <h2>Deine E-Mail-Adresse</h2>
-      <input type="email" id="email" placeholder="E-Mail-Adresse eingeben" required />
-      <br>
-      <button id="emailNext">Weiter</button>
-    </div>
-
-    <div id="codeStep" class="hidden">
-      <h2>Bestätigungscode</h2>
-      <input type="number" id="code" placeholder="Code eingeben" required />
-      <br>
-      <button id="codeNext">Weiter</button>
-      <p id="codeError" class="error hidden">Falscher Code</p>
-    </div>
-
-    <form id="form" class="hidden">
-      <!-- Jede Frage als einzelner Schritt -->
-      <div class="questionStep" id="q1">
-        <label>1. Wie heißt du?</label><br>
-        <input type="text" name="vorname" placeholder="Vorname" required />
-        <input type="text" name="nachname" placeholder="Nachname" required />
-        <button type="button" class="nextBtn" disabled>Weiter</button>
-      </div>
-
-      <div class="questionStep" id="q2">
-        <label>2. Wann wurdest du geboren?</label><br>
-        <select name="tag" required><option value="">Tag</option></select>
-        <select name="monat" required><option value="">Monat</option></select>
-        <select name="jahr" required><option value="">Jahr</option></select>
-        <button type="button" class="nextBtn" disabled>Weiter</button>
-      </div>
-
-      <div class="questionStep" id="q3">
-        <label>3. Aus welchem Land kommst du?</label><br>
-        <select id="land" name="land" required>
-          <option value="">Bitte wählen</option>
-          <option>Deutschland</option>
-          <option>Österreich</option>
-          <option>Schweiz</option>
-          <option>Andere</option>
-        </select>
-        <input type="text" id="landAndere" name="landAndere" placeholder="Welches Land?" class="hidden" />
-        <button type="button" class="nextBtn" disabled>Weiter</button>
-      </div>
-
-      <div class="questionStep" id="q4">
-        <label>4. Aus welchem Bundesland kommst du?</label><br>
-        <input type="text" name="bundesland" required />
-        <button type="button" class="nextBtn" disabled>Weiter</button>
-      </div>
-
-      <div class="questionStep" id="q5">
-        <label>5. Über welche Geräte verfügst du?</label><br>
-        <input type="text" name="geräte" required />
-        <button type="button" class="nextBtn" disabled>Weiter</button>
-      </div>
-
-      <div class="questionStep" id="q6">
-        <label>6. Mit welchen Plattformen arbeitest du regelmäßig?</label><br>
-        <input type="text" name="plattformen" required />
-        <button type="button" class="nextBtn" disabled>Weiter</button>
-      </div>
-
-      <div class="questionStep" id="q7">
-        <label>7. Was sind deine Stärken im Bereich?</label><br>
-        <textarea name="stärken" minlength="50" required></textarea>
-        <button type="button" class="nextBtn" disabled>Weiter</button>
-      </div>
-
-      <!-- Zusätzliche Fragen -->
-      <div class="questionStep" id="q8">
-        <label>8. Warum willst du bei uns mitmachen?</label><br>
-        <textarea name="motivation" minlength="50" required></textarea>
-        <button type="button" class="nextBtn" disabled>Weiter</button>
-      </div>
-
-      <div class="questionStep" id="q9">
-        <label>9. Was erwartest du von uns?</label><br>
-        <textarea name="erwartungen" minlength="30" required></textarea>
-        <button type="button" class="nextBtn" disabled>Weiter</button>
-      </div>
-
-      <div class="questionStep" id="endStep">
-        <h2>Vielen Dank für deine Bewerbung!</h2>
-        <button type="submit">Abschicken</button>
-      </div>
-    </form>
-
-    <div id="endScreen" class="hidden">
-      <h2>Deine Bewerbung wurde übermittelt.</h2>
+    <div class="buttons">
+      <a href="https://mm2shop.github.io/login" class="btn">Zum Shop</a>
+      <a href="https://mm2shop.github.io/aboutus" class="btn">Über uns</a>
+      <a href="https://mm2shop.github.io/contact" class="btn">Kontakt</a>
     </div>
   </main>
-
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-  <script src="script.js"></script>
+  <footer>
+    <p>© 2025 MM2Shop. Alle Rechte vorbehalten.</p>
+  </footer>
+  <script src="script.js" defer></script>
 </body>
 </html>
