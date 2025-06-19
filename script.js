@@ -12,21 +12,39 @@ document.querySelectorAll('.btn').forEach(btn => {
   });
 });
 
-// Diashow-Funktion
+// Diashow automatisch mit Bildern p1.jpg bis p5.jpg
+const slideshowContainer = document.querySelector('.slideshow-container');
+
+// Pfade zu den Bildern
+const imagePaths = [
+  'images/p1.jpg',
+  'images/p2.jpg',
+  'images/p3.jpg',
+  'images/p4.jpg',
+  'images/p5.jpg'
+];
+
+// Bilder dynamisch einfügen
+imagePaths.forEach((src, index) => {
+  const img = document.createElement('img');
+  img.src = src;
+  img.alt = `MM2 Item ${index + 1}`;
+  img.classList.add('slide');
+  slideshowContainer.appendChild(img);
+});
+
 let currentSlide = 0;
-const slides = document.querySelectorAll('.slide');
+const slides = () => document.querySelectorAll('.slide');
 
 function showSlide(index) {
-  slides.forEach((slide, i) => {
+  slides().forEach((slide, i) => {
     slide.classList.remove('active');
-    if (i === index) {
-      slide.classList.add('active');
-    }
+    if (i === index) slide.classList.add('active');
   });
 }
 
 function nextSlide() {
-  currentSlide = (currentSlide + 1) % slides.length;
+  currentSlide = (currentSlide + 1) % slides().length;
   showSlide(currentSlide);
 }
 
