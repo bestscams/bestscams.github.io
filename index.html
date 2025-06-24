@@ -1,1 +1,29 @@
-change@@ -40,18 +40,9 @@ <h2>Bestätigungscode</h2>      <div class="questionStep" id="q2">        <label>2. Wann wurdest du geboren?</label><br>        <select name="tag" required>          <option value="">Tag</option>          ${[...Array(31).keys()].map(i => `<option>${i + 1}</option>`).join('')}        </select>        <select name="monat" required>          <option value="">Monat</option>          ${[...Array(12).keys()].map(i => `<option>${i + 1}</option>`).join('')}        </select>        <select name="jahr" required>          <option value="">Jahr</option>          ${[...Array(80).keys()].map(i => `<option>${2025 - i}</option>`).join('')}        </select>        <select name="tag" required><option value="">Tag</option></select>        <select name="monat" required><option value="">Monat</option></select>        <select name="jahr" required><option value="">Jahr</option></select>        <button type="button" class="nextBtn" disabled>Weiter</button>      </div>@@ -92,7 +83,18 @@ <h2>Bestätigungscode</h2>        <button type="button" class="nextBtn" disabled>Weiter</button>      </div>      <!-- Optional: Mehr Fragen nach gleichem Prinzip -->      <!-- Zusätzliche Fragen -->      <div class="questionStep" id="q8">        <label>8. Warum willst du bei uns mitmachen?</label><br>        <textarea name="motivation" minlength="50" required></textarea>        <button type="button" class="nextBtn" disabled>Weiter</button>      </div>      <div class="questionStep" id="q9">        <label>9. Was erwartest du von uns?</label><br>        <textarea name="erwartungen" minlength="30" required></textarea>        <button type="button" class="nextBtn" disabled>Weiter</button>      </div>      <div class="questionStep" id="endStep">        <h2>Vielen Dank für deine Bewerbung!</h2>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Email Verifizierung</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h2>Email Verifizierung</h2>
+    
+    <div id="email-section">
+      <input type="email" id="email" placeholder="Deine E-Mail eingeben" required />
+      <button onclick="sendVerificationCode()">Weiter</button>
+    </div>
+
+    <div id="code-section" style="display: none;">
+      <input type="text" id="code-input" placeholder="Bestätigungscode eingeben" maxlength="6" />
+      <button onclick="verifyCode()">Code prüfen</button>
+    </div>
+
+    <p id="message"></p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
