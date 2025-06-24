@@ -9,14 +9,22 @@ function generateRandomCode() {
 
 function sendVerificationCode() {
   if (sending) return;
+
   const btn = document.getElementById("email-send-btn");
+  const loading = document.getElementById("loading-text");
   const email = document.getElementById("email").value.trim();
-  if (!email) { showMessage("Bitte gib eine gültige E-Mail ein.", "error"); return; }
+
+  if (!email) {
+    showMessage("Bitte gib eine gültige E-Mail ein.", "error");
+    return;
+  }
 
   sending = true;
   btn.disabled = true;
+  loading.style.display = "block";
 
   emailCode = generateRandomCode();
+
   emailjs.send("service_5a0dtz7", "template_wj8fyb2", {
     to_email: email,
     code: emailCode
@@ -30,6 +38,7 @@ function sendVerificationCode() {
   }).finally(() => {
     sending = false;
     btn.disabled = false;
+    loading.style.display = "none";
   });
 }
 
@@ -39,6 +48,7 @@ function verifyEmailCode() {
     showMessage("E-Mail bestätigt!", "success");
     document.getElementById("code-section").style.display = "none";
     document.getElementById("about-section").style.display = "block";
+    document.getElementById("main-title").style.display = "none";
     setupWordCounter("about", "counter-about", "about-btn");
   } else {
     showMessage("Falscher Code.", "error");
@@ -49,15 +59,18 @@ function setupWordCounter(textId, counterId, btnId) {
   const ta = document.getElementById(textId);
   const counter = document.getElementById(counterId);
   const btn = document.getElementById(btnId);
-  ta.addEventListener("input", () => {
+
+  const updateCounter = () => {
     const words = ta.value.trim().split(/\s+/).filter(w => w).length;
     counter.textContent = `${words}/500 Wörter`;
     btn.disabled = words < 500;
-  });
+  };
+
+  ta.addEventListener("input", updateCounter);
+  updateCounter(); // Initial call
 }
 
 function nextSection() {
-  showMessage("Gut gemacht! Als nächstes:", "success");
   document.getElementById("about-section").style.display = "none";
   document.getElementById("why-section").style.display = "block";
   setupWordCounter("why", "counter-why", "why-btn");
@@ -73,3 +86,14 @@ function showMessage(msg, type) {
   el.textContent = msg;
   el.className = type;
 }
+
+// Collapsible helper
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".collapsible").forEach(button => {
+    button.addEventListener("click", () => {
+      button.classList.toggle("active");
+      const content = button.nextElementSibling;
+      content.style.display = content.style.display === "block" ? "none" : "block";
+    });
+  });
+});
