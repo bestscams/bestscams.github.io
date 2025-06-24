@@ -75,3 +75,7 @@ button:disabled {
   padding-left: 20px;
   list-style-type: disc;
 }
+#success-section {
+  text-align: center;
+  padding: 40px 20px;
+}
