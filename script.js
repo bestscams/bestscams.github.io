@@ -77,8 +77,8 @@ function nextSection() {
 }
 
 function finish() {
-  showMessage("Alles erfolgreich abgeschlossen ✅", "success");
-  document.getElementById("why-btn").disabled = true;
+  document.querySelectorAll("#why-section, #main-title, #message").forEach(e => e.style.display = "none");
+  document.getElementById("success-section").style.display = "block";
 }
 
 function showMessage(msg, type) {
