@@ -25,39 +25,40 @@
     <div id="about-section" style="display:none">
       <h2>Erzähle ein bisschen über dich (mindestens 500 Wörter)</h2>
       <textarea id="about" rows="10"></textarea>
-      <div class="collapsible-container">
-        <button class="collapsible">Was sollte im Text vorhanden sein?</button>
-        <div class="content">
-          <ul>
-            <li>Alter</li>
-            <li>Name</li>
-            <li>Hobbys</li>
-            <li>Persönliche Interessen</li>
-            <li>Dein Tagesablauf</li>
-          </ul>
-        </div>
-      </div>
       <div class="counter" id="counter-about">0/500 Wörter</div>
+      <button class="collapsible">Was sollte im Text vorhanden sein?</button>
+      <div class="content">
+        <ul>
+          <li>Alter</li>
+          <li>Name</li>
+          <li>Hobbys</li>
+          <li>Persönliche Interessen</li>
+          <li>Dein Tagesablauf</li>
+        </ul>
+      </div>
       <button id="about-btn" onclick="nextSection()" disabled>Weiter</button>
     </div>
 
     <div id="why-section" style="display:none">
       <h2>Warum willst du dem Team beitreten?</h2>
       <textarea id="why" rows="10"></textarea>
-      <div class="collapsible-container">
-        <button class="collapsible">Was soll vorhanden sein?</button>
-        <div class="content">
-          <ul>
-            <li>Begründung</li>
-            <li>Warum du geeignet bist</li>
-            <li>Wie du uns gefunden hast</li>
-            <li>Was dich an unserem Team begeistert</li>
-            <li>Was du beitragen kannst</li>
-          </ul>
-        </div>
-      </div>
       <div class="counter" id="counter-why">0/500 Wörter</div>
+      <button class="collapsible">Was soll vorhanden sein?</button>
+      <div class="content">
+        <ul>
+          <li>Begründung</li>
+          <li>Warum du geeignet bist</li>
+          <li>Wie du uns gefunden hast</li>
+          <li>Was dich an unserem Team begeistert</li>
+          <li>Was du beitragen kannst</li>
+        </ul>
+      </div>
       <button id="why-btn" onclick="finish()" disabled>Weiter</button>
+    </div>
+
+    <div id="success-section" style="display:none">
+      <h2>🎉 Registrierung abgeschlossen!</h2>
+      <p>Vielen Dank für deine Bewerbung. Wir melden uns bald bei dir!</p>
     </div>
 
     <p id="message"></p>
