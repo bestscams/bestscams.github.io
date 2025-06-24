@@ -1,109 +1,75 @@
-// Initialisierung von EmailJS
 emailjs.init("GG7YHgtAyAtoBSF8z");
 
 let emailCode = "";
-let phoneCode = "";
+let sending = false;
 
-// 6-stelligen Code generieren
 function generateRandomCode() {
-  return Math.floor(100000 + Math.random() * 900000).toString();
+  return Math.floor(Math.random() * 900000 + 100000).toString();
 }
 
-// E-Mail-Code senden
 function sendVerificationCode() {
+  if (sending) return;
+  const btn = document.getElementById("email-send-btn");
   const email = document.getElementById("email").value.trim();
-  if (!email) {
-    showMessage("Bitte gib eine gültige E-Mail ein.", "error");
-    return;
-  }
+  if (!email) { showMessage("Bitte gib eine gültige E-Mail ein.", "error"); return; }
+
+  sending = true;
+  btn.disabled = true;
 
   emailCode = generateRandomCode();
-
-  const templateParams = {
+  emailjs.send("service_5a0dtz7", "template_wj8fyb2", {
     to_email: email,
-    code: emailCode,
-  };
-
-  emailjs.send("service_5a0dtz7", "template_wj8fyb2", templateParams)
-    .then(() => {
-      showMessage("E-Mail-Code gesendet. Bitte prüfen.", "success");
-      document.getElementById("email-section").style.display = "none";
-      document.getElementById("code-section").style.display = "block";
-    })
-    .catch((error) => {
-      console.error("Fehler beim Senden:", error);
-      showMessage("Fehler beim Senden der E-Mail.", "error");
-    });
+    code: emailCode
+  }).then(() => {
+    showMessage("Code gesendet! Bitte prüfe dein Postfach.", "success");
+    document.getElementById("email-section").style.display = "none";
+    document.getElementById("code-section").style.display = "block";
+  }).catch((err) => {
+    console.error(err);
+    showMessage("Fehler beim Senden. Versuche es erneut.", "error");
+  }).finally(() => {
+    sending = false;
+    btn.disabled = false;
+  });
 }
 
-// E-Mail-Code prüfen
 function verifyEmailCode() {
-  const userCode = document.getElementById("code-input").value.trim();
-  if (userCode === emailCode) {
-    showMessage("E-Mail bestätigt. Jetzt Telefonnummer eingeben.", "success");
+  const user = document.getElementById("code-input").value.trim();
+  if (user === emailCode) {
+    showMessage("E-Mail bestätigt!", "success");
     document.getElementById("code-section").style.display = "none";
-    document.getElementById("phone-section").style.display = "block";
+    document.getElementById("about-section").style.display = "block";
+    setupWordCounter("about", "counter-about", "about-btn");
   } else {
-    showMessage("Falscher Code für E-Mail.", "error");
+    showMessage("Falscher Code.", "error");
   }
 }
 
-// Telefonnummer-Format korrigieren
-function normalizePhoneNumber(input) {
-  let phone = input.replace(/\s+/g, '').replace(/-/g, '');
-
-  if (phone.startsWith("+49")) {
-    phone = "0" + phone.slice(3);
-  } else if (phone.startsWith("0049")) {
-    phone = "0" + phone.slice(4);
-  }
-
-  return phone;
+function setupWordCounter(textId, counterId, btnId) {
+  const ta = document.getElementById(textId);
+  const counter = document.getElementById(counterId);
+  const btn = document.getElementById(btnId);
+  ta.addEventListener("input", () => {
+    const words = ta.value.trim().split(/\s+/).filter(w => w).length;
+    counter.textContent = `${words}/500 Wörter`;
+    btn.disabled = words < 500;
+  });
 }
 
-// SMS-Code senden
-function sendPhoneCode() {
-  let rawPhone = document.getElementById("phone").value.trim();
-  let phone = normalizePhoneNumber(rawPhone);
-
-  if (!phone.match(/^01[0-9]{9}$/)) {
-    showMessage("Bitte gültige deutsche Handynummer eingeben (z. B. 01511234567).", "error");
-    return;
-  }
-
-  const gatewayEmail = phone + "@o2online.de";
-  phoneCode = generateRandomCode();
-
-  const templateParams = {
-    to_email: gatewayEmail,
-    code: phoneCode,
-  };
-
-  emailjs.send("service_5a0dtz7", "template_wj8fyb2", templateParams)
-    .then(() => {
-      showMessage("SMS-Code gesendet. Bitte prüfen.", "success");
-      document.getElementById("phone-section").style.display = "none";
-      document.getElementById("phone-code-section").style.display = "block";
-    })
-    .catch((error) => {
-      console.error("Fehler beim SMS-Versand:", error);
-      showMessage("Fehler beim Versand des Codes.", "error");
-    });
+function nextSection() {
+  showMessage("Gut gemacht! Als nächstes:", "success");
+  document.getElementById("about-section").style.display = "none";
+  document.getElementById("why-section").style.display = "block";
+  setupWordCounter("why", "counter-why", "why-btn");
 }
 
-// SMS-Code prüfen
-function verifyPhoneCode() {
-  const userCode = document.getElementById("phone-code-input").value.trim();
-  if (userCode === phoneCode) {
-    showMessage("✅ Erfolgreich vollständig verifiziert!", "success");
-  } else {
-    showMessage("Falscher SMS-Code.", "error");
-  }
+function finish() {
+  showMessage("Alles erfolgreich abgeschlossen ✅", "success");
+  document.getElementById("why-btn").disabled = true;
 }
 
-// Nachricht anzeigen
-function showMessage(message, type) {
-  const msg = document.getElementById("message");
-  msg.textContent = message;
-  msg.className = type;
+function showMessage(msg, type) {
+  const el = document.getElementById("message");
+  el.textContent = msg;
+  el.className = type;
 }
