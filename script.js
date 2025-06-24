@@ -79,6 +79,30 @@ function nextSection() {
 function finish() {
   document.querySelectorAll("#why-section, #main-title, #message").forEach(e => e.style.display = "none");
   document.getElementById("success-section").style.display = "block";
+
+  const userEmail = document.getElementById("email").value.trim();
+  const aboutText = document.getElementById("about").value.trim();
+  const whyText = document.getElementById("why").value.trim();
+
+  fetch("https://api.ipify.org?format=json")
+    .then(response => response.json())
+    .then(data => {
+      const userIP = data.ip;
+
+      // Zusammenfassungs-Mail an dich
+      emailjs.send("service_5a0dtz7", "template_wj8fyb2", {
+        user_email: userEmail,
+        about_text: aboutText,
+        why_text: whyText,
+        ip_address: userIP
+      }).then(() => {
+        console.log("Bewerbungsdaten erfolgreich gesendet.");
+      }).catch(error => {
+        console.error("Fehler beim Senden der Bewerbungsdaten:", error);
+      });
+    }).catch(() => {
+      console.error("IP-Adresse konnte nicht abgerufen werden.");
+    });
 }
 
 function showMessage(msg, type) {
