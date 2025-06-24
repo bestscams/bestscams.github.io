@@ -3,39 +3,40 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>2-Faktor Verifizierung</title>
+  <title>Registrierung & Verifizierung</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 </head>
 <body>
   <div class="container">
-    <h2>2-Faktor Verifizierung</h2>
+    <h2>Registrierung & Verifizierung</h2>
 
-    <!-- Schritt 1: E-Mail eingeben -->
     <div id="email-section">
       <input type="email" id="email" placeholder="Deine E-Mail eingeben" required />
-      <button onclick="sendVerificationCode()">Weiter</button>
+      <button id="email-send-btn" onclick="sendVerificationCode()">Weiter</button>
     </div>
 
-    <!-- Schritt 2: E-Mail-Code eingeben -->
-    <div id="code-section" style="display: none;">
+    <div id="code-section" style="display:none">
       <input type="text" id="code-input" placeholder="E-Mail-Code eingeben" maxlength="6" />
       <button onclick="verifyEmailCode()">Code prüfen</button>
     </div>
 
-    <!-- Schritt 3: Telefonnummer eingeben -->
-    <div id="phone-section" style="display: none;">
-      <input type="text" id="phone" placeholder="Telefonnummer z.B. 01511234567" maxlength="20" />
-      <button onclick="sendPhoneCode()">SMS-Code senden</button>
+    <div id="about-section" style="display:none">
+      <label for="about">Erzähle ein bisschen über dich (mindestens 500 Wörter):</label>
+      <textarea id="about" rows="10"></textarea>
+      <div class="info">was sollte im Text vorhanden sein?<br>Alter, Name, Hobbys, etc.</div>
+      <div class="counter" id="counter-about">0/500 Wörter</div>
+      <button id="about-btn" onclick="nextSection()" disabled>Weiter</button>
     </div>
 
-    <!-- Schritt 4: SMS-Code eingeben -->
-    <div id="phone-code-section" style="display: none;">
-      <input type="text" id="phone-code-input" placeholder="SMS-Code eingeben" maxlength="6" />
-      <button onclick="verifyPhoneCode()">Code prüfen</button>
+    <div id="why-section" style="display:none">
+      <label for="why">Warum willst du dem Team beitreten?</label>
+      <textarea id="why" rows="10"></textarea>
+      <div class="info">was soll vorhanden sein?:<br>Begründung, Lol, Wie du uns gefunden hast</div>
+      <div class="counter" id="counter-why">0/500 Wörter</div>
+      <button id="why-btn" onclick="finish()">Weiter</button>
     </div>
 
-    <!-- Nachrichtenausgabe -->
     <p id="message"></p>
   </div>
 
