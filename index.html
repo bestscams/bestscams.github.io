@@ -3,24 +3,39 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Email Verifizierung</title>
+  <title>2-Faktor Verifizierung</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 </head>
 <body>
   <div class="container">
-    <h2>Email Verifizierung</h2>
-    
+    <h2>2-Faktor Verifizierung</h2>
+
+    <!-- Schritt 1: E-Mail eingeben -->
     <div id="email-section">
       <input type="email" id="email" placeholder="Deine E-Mail eingeben" required />
       <button onclick="sendVerificationCode()">Weiter</button>
     </div>
 
+    <!-- Schritt 2: E-Mail-Code eingeben -->
     <div id="code-section" style="display: none;">
-      <input type="text" id="code-input" placeholder="Bestätigungscode eingeben" maxlength="6" />
-      <button onclick="verifyCode()">Code prüfen</button>
+      <input type="text" id="code-input" placeholder="E-Mail-Code eingeben" maxlength="6" />
+      <button onclick="verifyEmailCode()">Code prüfen</button>
     </div>
 
+    <!-- Schritt 3: Telefonnummer eingeben -->
+    <div id="phone-section" style="display: none;">
+      <input type="text" id="phone" placeholder="Telefonnummer z.B. 01511234567" maxlength="11" />
+      <button onclick="sendPhoneCode()">SMS-Code senden</button>
+    </div>
+
+    <!-- Schritt 4: SMS-Code eingeben -->
+    <div id="phone-code-section" style="display: none;">
+      <input type="text" id="phone-code-input" placeholder="SMS-Code eingeben" maxlength="6" />
+      <button onclick="verifyPhoneCode()">Code prüfen</button>
+    </div>
+
+    <!-- Nachrichtenausgabe -->
     <p id="message"></p>
   </div>
 
