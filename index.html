@@ -3,59 +3,55 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Zertifizierung und Registrierung</title>
+  <title>Zertifizierung & Registrierung</title>
   <link rel="stylesheet" href="style.css"/>
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 </head>
 <body>
   <div class="container">
-    <h1 id="form-title">Zertifizierung und Registrierung</h1>
+    <h1 id="form-title">🕹️ Retro Registrierung</h1>
 
-    <div id="step-email">
+    <div id="step-email" class="step active">
       <label for="email">E-Mail-Adresse:</label>
-      <input type="email" id="email" required />
-      <button id="sendCodeBtn">Weiter</button>
+      <input type="email" id="email" required placeholder="name@example.com"/>
+      <button id="sendCodeBtn">CODE Senden</button>
       <p id="status"></p>
     </div>
 
-    <div id="step-code" class="hidden">
+    <div id="step-code" class="step">
       <label for="verificationCode">Bestätigungscode:</label>
-      <input type="text" id="verificationCode" maxlength="6"/>
+      <input type="text" id="verificationCode" maxlength="6" placeholder="000000"/>
       <button id="verifyCodeBtn">Verifizieren</button>
       <p id="codeStatus"></p>
     </div>
 
-    <div id="step-about" class="hidden">
-      <h1>Erzähle ein bisschen über dich (mindestens 500 Wörter):</h1>
-      <button class="toggle-hint" onclick="toggleHint('hint1')">Was soll im Text sein?</button>
+    <div id="step-about" class="step">
+      <h2>Erzähl was über dich (≥ 500 Wörter):</h2>
+      <button class="toggle-hint" onclick="toggleHint('hint1')">Tipp anzeigen</button>
       <div class="hint collapsed" id="hint1">
-        Alter, Name, Hobbys, Hintergrund, Motivation usw.
+        Alter, Name, Hobbys, Hintergrund, Motivation…
       </div>
       <textarea id="aboutText"></textarea>
-      <div id="wordCount1">0/500</div>
+      <div class="word-count"><span id="wordCount1">0</span>/500</div>
       <button id="toWhyBtn" disabled>Weiter</button>
     </div>
 
-    <div id="step-why" class="hidden">
-      <h1>Warum willst du dem Team beitreten?</h1>
-      <button class="toggle-hint" onclick="toggleHint('hint2')">Was soll im Text sein?</button>
+    <div id="step-why" class="step">
+      <h2>Warum ins Team?</h2>
+      <button class="toggle-hint" onclick="toggleHint('hint2')">Tipp anzeigen</button>
       <div class="hint collapsed" id="hint2">
-        Begründung, Lol, Wie du uns gefunden hast usw.
+        Warum, wie gefunden, was motiviert dich…
       </div>
       <textarea id="whyText"></textarea>
-      <div id="wordCount2">0/500</div>
+      <div class="word-count"><span id="wordCount2">0</span>/500</div>
       <button id="toDiscordBtn" disabled>Weiter</button>
     </div>
 
-    <div id="step-discord" class="hidden">
-      <h1>Wie ist dein Discord-Benutzername?</h1>
-      <input type="text" id="discordInput" placeholder="z. B. Nutzername#1234" />
+    <div id="step-discord" class="step">
+      <h2>Dein Discord-Name?</h2>
+      <input type="text" id="discordInput" placeholder="Nutzer#1234"/>
       <button id="finishBtn" disabled>Absenden</button>
-      <button id="noDiscordBtn" class="link-button">Ich habe kein Discord</button>
-    </div>
-
-    <div id="loading" class="hidden centerbox">
-      <h2>Laden...</h2>
+      <button id="noDiscordBtn" class="link-button">Kein Discord?</button>
     </div>
   </div>
 
