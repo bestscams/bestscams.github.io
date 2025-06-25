@@ -63,39 +63,52 @@ function setupTextCounter(textareaId, counterId, buttonId) {
 }
 
 setupTextCounter("aboutText", "wordCount1", "toWhyBtn");
-setupTextCounter("whyText", "wordCount2", "finishBtn");
+setupTextCounter("whyText", "wordCount2", "toDiscordBtn");
 
 document.getElementById("toWhyBtn").addEventListener("click", () => {
   document.getElementById("step-about").classList.add("hidden");
   document.getElementById("step-why").classList.remove("hidden");
 });
 
+document.getElementById("toDiscordBtn").addEventListener("click", () => {
+  document.getElementById("step-why").classList.add("hidden");
+  document.getElementById("step-discord").classList.remove("hidden");
+});
+
+document.getElementById("discordInput").addEventListener("input", () => {
+  const val = document.getElementById("discordInput").value.trim();
+  document.getElementById("finishBtn").disabled = val.length < 4;
+});
+
+document.getElementById("noDiscordBtn").addEventListener("click", () => {
+  window.open("https://meinewebsite.github.io/keindiscord", "_blank");
+});
+
 document.getElementById("finishBtn").addEventListener("click", () => {
   const email = document.getElementById("email").value.trim();
   const about = document.getElementById("aboutText").value.trim();
   const why = document.getElementById("whyText").value.trim();
+  const discord = document.getElementById("discordInput").value.trim();
+
+  const fullAbout = about + `\n\nDiscord: ${discord}`;
+
+  document.querySelector(".container").innerHTML = `<div class="centerbox"><h2>Laden...</h2></div>`;
 
   fetch("https://api.ipify.org?format=json")
     .then(res => res.json())
     .then(data => {
-      const ip = data.ip;
-
       return emailjs.send("service_5a0dtz7", "template_dz9uqh6", {
         user_email: email,
-        about_text: about,
+        about_text: fullAbout,
         why_text: why,
-        ip_address: ip
+        ip_address: data.ip
       });
     })
     .then(() => {
-      document.querySelector(".container").innerHTML = `
-        <div class="centerbox">
-          <h2>✅ Alles abgeschlossen!</h2>
-          <p>Deine Bewerbung wurde erfolgreich übermittelt.</p>
-        </div>`;
+      window.location.href = "https://meinewebsite.github.io/success";
     })
     .catch(err => {
-      console.error("Fehler beim Senden der Zusammenfassung:", err);
+      console.error("Fehler beim Senden:", err);
       alert("Fehler beim Senden.");
     });
 });
