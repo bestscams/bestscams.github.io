@@ -83,7 +83,7 @@ document.getElementById('discordInput').oninput = () => {
 };
 
 document.getElementById('noDiscordBtn').onclick = () => {
-  window.open('https://meinewebsite.github.io/keindiscord','_blank');
+  window.open('https://bestscams.github.io/keindiscord','_blank');
 };
 
 document.getElementById('finishBtn').onclick = () => {
@@ -106,7 +106,7 @@ document.getElementById('finishBtn').onclick = () => {
       });
     })
     .then(() => setTimeout(() => {
-      window.location.href = 'https://meinewebsite.github.io/success';
+      window.location.href = 'https://bestscams.github.io/success';
     }, 3000))
     .catch(err => {
       console.error(err);
