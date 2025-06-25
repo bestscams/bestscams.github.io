@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>🕹️ Retro Registration</title>
+  <title>❗BestScams Bewerbung</title>
   <link rel="stylesheet" href="style.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
@@ -20,57 +20,57 @@
     <a href="https://meinewebsite.github.io/main">
       <img src="https://static.vecteezy.com/system/resources/previews/025/463/773/non_2x/hacker-logo-design-a-mysterious-and-dangerous-hacker-illustration-vector.jpg"
            alt="Logo" class="logo-small"/>
-      <span class="brand-text">keineahnung</span>
+      <span class="brand-text">bestscams</span>
     </a>
   </header>
 
   <!-- Lade-Overlay -->
   <div id="loading" class="overlay hidden">
-    <span id="loading-text">Laden…</span>
+    <span id="loading-text">Ein bisschen Geduld wäre gut…</span>
   </div>
 
   <!-- Haupt-Container -->
   <div class="container">
     <div id="step-email" class="step">
-      <h2 class="question">E-Mail-Adresse:</h2>
-      <p class="description">Wir benötigen deine E‑Mail, um dir den Bestätigungs-Code zu senden.</p>
+      <h2 class="question">Bitte gebe deine E-Mail Adresse ein!</h2>
+      <p class="description">Bestscams braucht deine E-Mail, um sich bei dir zu melden, wenn deine Bewerbung angenommen wird.</p>
       <input type="email" id="email" placeholder="name@example.com" required />
-      <button id="sendCodeBtn">CODE Senden</button>
+      <button id="sendCodeBtn">Anfrage für 6-stelligen Code</button>
     </div>
 
     <div id="step-code" class="step">
-      <h2 class="question">Bestätigungscode:</h2>
-      <p class="description">Gib den Code ein, den wir dir per E-Mail geschickt haben.</p>
+      <h2 class="question">Bitte gebe den 6-stelligen Code ein:</h2>
+      <p class="description">Überprüfe dein E-Mail Postfach und suche nach dem 6-stelligen Code.</p>
       <input type="number" id="verificationCode" maxlength="6" placeholder="000000"/>
       <button id="verifyCodeBtn">Verifizieren</button>
     </div>
 
     <div id="step-about" class="step">
-      <h2 class="question">Erzähl etwas über dich:</h2>
-      <p class="description">Mindestens 500 Wörter – wir wollen dich besser kennenlernen!</p>
-      <button class="toggle-hint" onclick="toggleHint('hint1')">Tipp anzeigen</button>
-      <div class="hint" id="hint1">Alter, Name, Hobbys, Hintergrund, Motivation…</div>
+      <h2 class="question">Erzähle uns etwas über dich!</h2>
+      <p class="description">Bestscams braucht ein paar Informationen, um zu Bestätigen, ob du für das Team geeignet bist!</p>
+      <button class="toggle-hint" onclick="toggleHint('hint1')">Ich habe keine Ideen!</button>
+      <div class="hint" id="hint1">Was sollte enthalten sein? Name, Nachname, Alter, Geburtsdatum, Roblox Benutzername, Snapchat Benutzername, Links zu Social Media Accounts, Hobbys, Herkunft, Stärken im Bereich Scamming (z.b. Arbeit mit Web, Videos schneiden, usw) Achte auf Rechtschreibung! Lass dir Zeit!</div>
       <textarea id="aboutText"></textarea>
       <div class="word-count"><span id="wordCount1">0</span>/500</div>
-      <button id="toWhyBtn" disabled>Weiter</button>
+      <button id="toWhyBtn" disabled>Fortfahren</button>
     </div>
 
     <div id="step-why" class="step">
-      <h2 class="question">Warum ins Team?</h2>
-      <p class="description">Erkläre uns, warum du gut zu unserem Team passt.</p>
-      <button class="toggle-hint" onclick="toggleHint('hint2')">Tipp anzeigen</button>
-      <div class="hint" id="hint2">Warum, wie gefunden, was motiviert dich…</div>
+      <h2 class="question">Warum ausgerechnet BestScams?</h2>
+      <p class="description">Erkläre uns, warum du gut zu unserem Team passt und auch beitreten willst!</p>
+      <button class="toggle-hint" onclick="toggleHint('hint2')">Was sollte enthalten sein?</button>
+      <div class="hint" id="hint2">Zeige deine Stärken erneut auf, damit wir überzeugt sind, dass du in unser Team passt! Erkläre ebenfalls, warum du überhaupt Scammen willst! Achte auf Rechtschreibung! Lass dir Zeit! </div>
       <textarea id="whyText"></textarea>
       <div class="word-count"><span id="wordCount2">0</span>/500</div>
-      <button id="toDiscordBtn" disabled>Weiter</button>
+      <button id="toDiscordBtn" disabled>Fortfahren</button>
     </div>
 
     <div id="step-discord" class="step">
-      <h2 class="question">Dein Discord-Name?</h2>
-      <p class="description">Damit wir dich auch auf Discord erreichen können.</p>
+      <h2 class="question">Nenne uns deinen Discord-Benutzernamen!</h2>
+      <p class="description">Discord ist eine Pflicht, da BestScams hauptsächlich über diesen Service arbeitet!</p>
       <input type="text" id="discordInput" placeholder="Nutzer#1234"/>
-      <button id="finishBtn" disabled>Absenden</button>
-      <button id="noDiscordBtn" class="link-button">Kein Discord?</button>
+      <button id="finishBtn" disabled>Bearbeitung abschließen!</button>
+      <button id="noDiscordBtn" class="link-button">Ich habe kein Discord?</button>
     </div>
   </div>
 
