@@ -10,7 +10,7 @@
 <body>
   <div class="container">
     <h1 id="form-title">Zertifizierung und Registrierung</h1>
-    
+
     <div id="step-email">
       <label for="email">E-Mail-Adresse:</label>
       <input type="email" id="email" required />
@@ -26,7 +26,7 @@
     </div>
 
     <div id="step-about" class="hidden">
-      <h1 id="form-title">Erzähle ein bisschen über dich (mindestens 500 Wörter):</h1>
+      <h1>Erzähle ein bisschen über dich (mindestens 500 Wörter):</h1>
       <button class="toggle-hint" onclick="toggleHint('hint1')">Was soll im Text sein?</button>
       <div class="hint collapsed" id="hint1">
         Alter, Name, Hobbys, Hintergrund, Motivation usw.
@@ -37,19 +37,25 @@
     </div>
 
     <div id="step-why" class="hidden">
-      <h1 id="form-title">Warum willst du dem Team beitreten?</h1>
+      <h1>Warum willst du dem Team beitreten?</h1>
       <button class="toggle-hint" onclick="toggleHint('hint2')">Was soll im Text sein?</button>
       <div class="hint collapsed" id="hint2">
         Begründung, Lol, Wie du uns gefunden hast usw.
       </div>
       <textarea id="whyText"></textarea>
       <div id="wordCount2">0/500</div>
-      <button id="finishBtn" disabled>Absenden</button>
+      <button id="toDiscordBtn" disabled>Weiter</button>
     </div>
 
-    <div id="thankYou" class="hidden centerbox">
-      <h2>✅ Alles abgeschlossen!</h2>
-      <p>Deine Bewerbung wurde erfolgreich übermittelt.</p>
+    <div id="step-discord" class="hidden">
+      <h1>Wie ist dein Discord-Benutzername?</h1>
+      <input type="text" id="discordInput" placeholder="z. B. Nutzername#1234" />
+      <button id="finishBtn" disabled>Absenden</button>
+      <button id="noDiscordBtn" class="link-button">Ich habe kein Discord</button>
+    </div>
+
+    <div id="loading" class="hidden centerbox">
+      <h2>Laden...</h2>
     </div>
   </div>
 
