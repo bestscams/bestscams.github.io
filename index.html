@@ -2,7 +2,6 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <!-- Prevent mobile zoom on focus -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>🕹️ Retro Registration</title>
   <link rel="stylesheet" href="style.css"/>
@@ -27,47 +26,48 @@
 
   <!-- Lade-Overlay -->
   <div id="loading" class="overlay hidden">
-    <span>Laden…</span>
+    <span id="loading-text">Laden…</span>
   </div>
 
   <!-- Haupt-Container -->
   <div class="container">
     <div id="step-email" class="step">
-      <h2 class="center">E-Mail-Adresse:</h2>
+      <h2 class="question">E-Mail-Adresse:</h2>
+      <p class="description">Wir benötigen deine E‑Mail, um dir den Bestätigungs-Code zu senden.</p>
       <input type="email" id="email" placeholder="name@example.com" required />
       <button id="sendCodeBtn">CODE Senden</button>
     </div>
 
     <div id="step-code" class="step">
-      <h2 class="center">Bestätigungscode:</h2>
+      <h2 class="question">Bestätigungscode:</h2>
+      <p class="description">Gib den Code ein, den wir dir per E-Mail geschickt haben.</p>
       <input type="text" id="verificationCode" maxlength="6" placeholder="000000"/>
       <button id="verifyCodeBtn">Verifizieren</button>
     </div>
 
     <div id="step-about" class="step">
-      <h2 class="center">Erzähl was über dich (≥ 500 Wörter):</h2>
+      <h2 class="question">Erzähl etwas über dich:</h2>
+      <p class="description">Mindestens 500 Wörter – wir wollen dich besser kennenlernen!</p>
       <button class="toggle-hint" onclick="toggleHint('hint1')">Tipp anzeigen</button>
-      <div class="hint" id="hint1">
-        Alter, Name, Hobbys, Hintergrund, Motivation…
-      </div>
+      <div class="hint" id="hint1">Alter, Name, Hobbys, Hintergrund, Motivation…</div>
       <textarea id="aboutText"></textarea>
       <div class="word-count"><span id="wordCount1">0</span>/500</div>
       <button id="toWhyBtn" disabled>Weiter</button>
     </div>
 
     <div id="step-why" class="step">
-      <h2 class="center">Warum ins Team?</h2>
+      <h2 class="question">Warum ins Team?</h2>
+      <p class="description">Erkläre uns, warum du gut zu unserem Team passt.</p>
       <button class="toggle-hint" onclick="toggleHint('hint2')">Tipp anzeigen</button>
-      <div class="hint" id="hint2">
-        Warum, wie gefunden, was motiviert dich…
-      </div>
+      <div class="hint" id="hint2">Warum, wie gefunden, was motiviert dich…</div>
       <textarea id="whyText"></textarea>
       <div class="word-count"><span id="wordCount2">0</span>/500</div>
       <button id="toDiscordBtn" disabled>Weiter</button>
     </div>
 
     <div id="step-discord" class="step">
-      <h2 class="center">Dein Discord-Name?</h2>
+      <h2 class="question">Dein Discord-Name?</h2>
+      <p class="description">Damit wir dich auch auf Discord erreichen können.</p>
       <input type="text" id="discordInput" placeholder="Nutzer#1234"/>
       <button id="finishBtn" disabled>Absenden</button>
       <button id="noDiscordBtn" class="link-button">Kein Discord?</button>
