@@ -1,8 +1,8 @@
 emailjs.init("GG7YHgtAyAtoBSF8z");
+
 let currentCode = "", codeGeneratedAt = 0, sending = false;
 
 window.addEventListener('DOMContentLoaded', () => {
-  // Splash → Nach 3 Sekunden geht's los
   setTimeout(() => {
     document.getElementById('splash').style.display = 'none';
     document.querySelector('.container').style.display = 'block';
@@ -17,7 +17,9 @@ function generateCode() {
 
 function showStep(id) {
   document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+  setTimeout(() => {
+    document.getElementById(id).classList.add('active');
+  }, 3000);
 }
 
 function isValidEmail(email) {
@@ -47,7 +49,7 @@ document.getElementById('sendCodeBtn').addEventListener('click', () => {
   document.getElementById('status').textContent = 'Senden…';
   currentCode = generateCode();
   emailjs.send("service_5a0dtz7", "template_wj8fyb2", { to_email: email, code: currentCode })
-    .then(() => showStep('step-code'))
+    .then(() => delayedStepSwitch('step-code'))
     .catch(() => alert('Fehler beim Senden.'))
     .finally(() => {
       sending = false;
@@ -58,13 +60,13 @@ document.getElementById('sendCodeBtn').addEventListener('click', () => {
 document.getElementById('verifyCodeBtn').addEventListener('click', () => {
   const code = document.getElementById('verificationCode').value.trim();
   const now = Date.now();
-  if (now - codeGeneratedAt > 10*60*1000) {
+  if (now - codeGeneratedAt > 10 * 60 * 1000) {
     document.getElementById('codeStatus').textContent = '⏰ Code abgelaufen.';
     return;
   }
   if (code === currentCode) {
     document.getElementById('codeStatus').textContent = '✅ Verifiziert!';
-    setTimeout(() => showStep('step-about'), 500);
+    delayedStepSwitch('step-about');
   } else {
     document.getElementById('codeStatus').textContent = '❌ Falscher Code.';
   }
@@ -73,8 +75,8 @@ document.getElementById('verifyCodeBtn').addEventListener('click', () => {
 setupTextCounter('aboutText', 'wordCount1', 'toWhyBtn');
 setupTextCounter('whyText', 'wordCount2', 'toDiscordBtn');
 
-document.getElementById('toWhyBtn').onclick = () => showStep('step-why');
-document.getElementById('toDiscordBtn').onclick = () => showStep('step-discord');
+document.getElementById('toWhyBtn').onclick = () => delayedStepSwitch('step-why');
+document.getElementById('toDiscordBtn').onclick = () => delayedStepSwitch('step-discord');
 
 document.getElementById('discordInput').addEventListener('input', () => {
   document.getElementById('finishBtn').disabled = document.getElementById('discordInput').value.trim().length < 4;
@@ -89,7 +91,7 @@ document.getElementById('finishBtn').addEventListener('click', () => {
   const about = document.getElementById('aboutText').value.trim();
   const why = document.getElementById('whyText').value.trim();
   const discord = document.getElementById('discordInput').value.trim();
-  document.querySelector('.container').innerHTML = '<h2>Laden…</h2>';
+  document.querySelector('.container').innerHTML = '<h2>Lade…</h2>';
   fetch("https://api.ipify.org?format=json")
     .then(r => r.json())
     .then(d => {
@@ -101,14 +103,23 @@ document.getElementById('finishBtn').addEventListener('click', () => {
         ip_address: ip
       });
     })
-    .then(() => window.location.href = 'https://meinewebsite.github.io/success')
+    .then(() => setTimeout(() => window.location.href = 'https://meinewebsite.github.io/success', 3000))
     .catch(err => {
       console.error(err);
       alert('Fehler beim Senden.');
     });
 });
 
+function delayedStepSwitch(stepId) {
+  document.querySelector('.container').innerHTML = '<h2>Lade…</h2>';
+  setTimeout(() => {
+    document.querySelector('.container').innerHTML = document.querySelector('body').innerHTML;
+    window.location.reload(); // Du kannst es hier anpassen, wenn du state beibehältst
+  }, 3000);
+}
+
+// Hinweis-Animation mit Slide
 function toggleHint(id) {
   const hint = document.getElementById(id);
-  hint.classList.toggle('collapsed');
+  hint.classList.toggle('open');
 }
