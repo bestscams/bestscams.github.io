@@ -2,8 +2,9 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Zertifizierung & Registrierung</title>
+  <!-- Prevent mobile zoom on focus -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>🕹️ Retro Registration</title>
   <link rel="stylesheet" href="style.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
@@ -11,37 +12,42 @@
 <body>
   <!-- Splash Screen -->
   <div id="splash">
-    <img src="https://static.vecteezy.com/system/resources/previews/025/463/773/non_2x/hacker-logo-design-a-mysterious-and-dangerous-hacker-illustration-vector.jpg" alt="Logo" class="splash-logo" />
+    <img src="https://static.vecteezy.com/system/resources/previews/025/463/773/non_2x/hacker-logo-design-a-mysterious-and-dangerous-hacker-illustration-vector.jpg"
+         alt="Logo" class="splash-logo" />
   </div>
 
   <!-- Branding -->
   <header class="branding">
     <a href="https://meinewebsite.github.io/main">
-      <img src="https://static.vecteezy.com/system/resources/previews/025/463/773/non_2x/hacker-logo-design-a-mysterious-and-dangerous-hacker-illustration-vector.jpg" alt="Logo" class="logo-small"/>
+      <img src="https://static.vecteezy.com/system/resources/previews/025/463/773/non_2x/hacker-logo-design-a-mysterious-and-dangerous-hacker-illustration-vector.jpg"
+           alt="Logo" class="logo-small"/>
       <span class="brand-text">keineahnung</span>
     </a>
   </header>
 
-  <!-- Hauptinhalt -->
+  <!-- Lade-Overlay -->
+  <div id="loading" class="overlay hidden">
+    <span>Laden…</span>
+  </div>
+
+  <!-- Haupt-Container -->
   <div class="container">
     <div id="step-email" class="step">
-      <label for="email">E-Mail-Adresse:</label>
-      <input type="email" id="email" required placeholder="name@example.com"/>
+      <h2 class="center">E-Mail-Adresse:</h2>
+      <input type="email" id="email" placeholder="name@example.com" required />
       <button id="sendCodeBtn">CODE Senden</button>
-      <p id="status"></p>
     </div>
 
     <div id="step-code" class="step">
-      <label for="verificationCode">Bestätigungscode:</label>
+      <h2 class="center">Bestätigungscode:</h2>
       <input type="text" id="verificationCode" maxlength="6" placeholder="000000"/>
       <button id="verifyCodeBtn">Verifizieren</button>
-      <p id="codeStatus"></p>
     </div>
 
     <div id="step-about" class="step">
-      <h2>Erzähl was über dich (≥ 500 Wörter):</h2>
+      <h2 class="center">Erzähl was über dich (≥ 500 Wörter):</h2>
       <button class="toggle-hint" onclick="toggleHint('hint1')">Tipp anzeigen</button>
-      <div class="hint collapsed" id="hint1">
+      <div class="hint" id="hint1">
         Alter, Name, Hobbys, Hintergrund, Motivation…
       </div>
       <textarea id="aboutText"></textarea>
@@ -50,9 +56,9 @@
     </div>
 
     <div id="step-why" class="step">
-      <h2>Warum ins Team?</h2>
+      <h2 class="center">Warum ins Team?</h2>
       <button class="toggle-hint" onclick="toggleHint('hint2')">Tipp anzeigen</button>
-      <div class="hint collapsed" id="hint2">
+      <div class="hint" id="hint2">
         Warum, wie gefunden, was motiviert dich…
       </div>
       <textarea id="whyText"></textarea>
@@ -61,7 +67,7 @@
     </div>
 
     <div id="step-discord" class="step">
-      <h2>Dein Discord-Name?</h2>
+      <h2 class="center">Dein Discord-Name?</h2>
       <input type="text" id="discordInput" placeholder="Nutzer#1234"/>
       <button id="finishBtn" disabled>Absenden</button>
       <button id="noDiscordBtn" class="link-button">Kein Discord?</button>
