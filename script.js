@@ -1,114 +1,100 @@
 emailjs.init("GG7YHgtAyAtoBSF8z");
-
-let currentCode = "";
-let sending = false;
+let currentCode = "", codeGeneratedAt = 0, sending = false;
 
 function generateCode() {
+  codeGeneratedAt = Date.now();
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
-document.getElementById("sendCodeBtn").addEventListener("click", () => {
-  if (sending) return;
+function showStep(id) {
+  document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
 
-  const email = document.getElementById("email").value.trim();
-  if (!email) return alert("Bitte E-Mail eingeben.");
-
-  sending = true;
-  document.getElementById("status").textContent = "Lade...";
-  currentCode = generateCode();
-
-  emailjs.send("service_5a0dtz7", "template_wj8fyb2", {
-    to_email: email,
-    code: currentCode
-  }).then(() => {
-    document.getElementById("step-email").classList.add("hidden");
-    document.getElementById("step-code").classList.remove("hidden");
-  }).catch(() => {
-    alert("Fehler beim Senden der Mail.");
-  }).finally(() => {
-    sending = false;
-    document.getElementById("status").textContent = "";
-  });
-});
-
-document.getElementById("verifyCodeBtn").addEventListener("click", () => {
-  const code = document.getElementById("verificationCode").value.trim();
-  if (code === currentCode) {
-    document.getElementById("step-code").classList.add("hidden");
-    document.getElementById("step-about").classList.remove("hidden");
-  } else {
-    document.getElementById("codeStatus").textContent = "❌ Falscher Code.";
-  }
-});
-
-function toggleHint(id) {
-  const el = document.getElementById(id);
-  el.classList.toggle("collapsed");
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 function countWords(text) {
-  return text.trim().split(/\s+/).filter(w => w.length > 0).length;
+  return text.trim().split(/\s+/).filter(w => w).length;
 }
 
-function setupTextCounter(textareaId, counterId, buttonId) {
-  const textarea = document.getElementById(textareaId);
-  const counter = document.getElementById(counterId);
-  const button = document.getElementById(buttonId);
-
-  textarea.addEventListener("input", () => {
-    const wordCount = countWords(textarea.value);
-    counter.textContent = `${wordCount}/500`;
-    button.disabled = wordCount < 500;
+function setupTextCounter(textId, countId, btnId) {
+  const t = document.getElementById(textId);
+  const c = document.getElementById(countId);
+  const b = document.getElementById(btnId);
+  t.addEventListener('input', () => {
+    const n = countWords(t.value);
+    c.textContent = n;
+    b.disabled = n < 500;
   });
 }
 
-setupTextCounter("aboutText", "wordCount1", "toWhyBtn");
-setupTextCounter("whyText", "wordCount2", "toDiscordBtn");
-
-document.getElementById("toWhyBtn").addEventListener("click", () => {
-  document.getElementById("step-about").classList.add("hidden");
-  document.getElementById("step-why").classList.remove("hidden");
+document.getElementById('sendCodeBtn').addEventListener('click', () => {
+  if (sending) return;
+  const email = document.getElementById('email').value.trim();
+  if (!isValidEmail(email)) return alert('Ungültige E-Mail.');
+  sending = true;
+  document.getElementById('status').textContent = 'Senden…';
+  currentCode = generateCode();
+  emailjs.send("service_5a0dtz7", "template_wj8fyb2", { to_email: email, code: currentCode })
+    .then(() => showStep('step-code'))
+    .catch(() => alert('Fehler beim Senden.'))
+    .finally(() => {
+      sending = false;
+      document.getElementById('status').textContent = '';
+    });
 });
 
-document.getElementById("toDiscordBtn").addEventListener("click", () => {
-  document.getElementById("step-why").classList.add("hidden");
-  document.getElementById("step-discord").classList.remove("hidden");
+document.getElementById('verifyCodeBtn').addEventListener('click', () => {
+  const code = document.getElementById('verificationCode').value.trim();
+  const now = Date.now();
+  if (now - codeGeneratedAt > 10*60*1000) {
+    document.getElementById('codeStatus').textContent = '⏰ Code abgelaufen.';
+    return;
+  }
+  if (code === currentCode) {
+    document.getElementById('codeStatus').textContent = '✅ Verifiziert!';
+    setTimeout(() => showStep('step-about'), 500);
+  } else {
+    document.getElementById('codeStatus').textContent = '❌ Falscher Code.';
+  }
 });
 
-document.getElementById("discordInput").addEventListener("input", () => {
-  const val = document.getElementById("discordInput").value.trim();
-  document.getElementById("finishBtn").disabled = val.length < 4;
+setupTextCounter('aboutText', 'wordCount1', 'toWhyBtn');
+setupTextCounter('whyText', 'wordCount2', 'toDiscordBtn');
+
+document.getElementById('toWhyBtn').onclick = () => showStep('step-why');
+document.getElementById('toDiscordBtn').onclick = () => showStep('step-discord');
+
+document.getElementById('discordInput').addEventListener('input', () => {
+  document.getElementById('finishBtn').disabled = document.getElementById('discordInput').value.trim().length < 4;
 });
 
-document.getElementById("noDiscordBtn").addEventListener("click", () => {
-  window.open("https://meinewebsite.github.io/keindiscord", "_blank");
-});
+document.getElementById('noDiscordBtn').onclick = () => {
+  window.open('https://meinewebsite.github.io/keindiscord','_blank');
+};
 
-document.getElementById("finishBtn").addEventListener("click", () => {
-  const email = document.getElementById("email").value.trim();
-  const about = document.getElementById("aboutText").value.trim();
-  const why = document.getElementById("whyText").value.trim();
-  const discord = document.getElementById("discordInput").value.trim();
-
-  const fullAbout = about + `\n\nDiscord: ${discord}`;
-
-  document.querySelector(".container").innerHTML = `<div class="centerbox"><h2>Laden...</h2></div>`;
-
+document.getElementById('finishBtn').addEventListener('click', () => {
+  const email = document.getElementById('email').value.trim();
+  const about = document.getElementById('aboutText').value.trim();
+  const why = document.getElementById('whyText').value.trim();
+  const discord = document.getElementById('discordInput').value.trim();
+  document.querySelector('.container').innerHTML = '<h2>Laden…</h2>';
   fetch("https://api.ipify.org?format=json")
-    .then(res => res.json())
-    .then(data => {
+    .then(r => r.json())
+    .then(d => {
+      const ip = d.ip || 'Unbekannt';
       return emailjs.send("service_5a0dtz7", "template_dz9uqh6", {
         user_email: email,
-        about_text: fullAbout,
+        about_text: about + `\n\nDiscord: ${discord}`,
         why_text: why,
-        ip_address: data.ip
+        ip_address: ip
       });
     })
-    .then(() => {
-      window.location.href = "https://meinewebsite.github.io/success";
-    })
+    .then(() => window.location.href = 'https://meinewebsite.github.io/success')
     .catch(err => {
-      console.error("Fehler beim Senden:", err);
-      alert("Fehler beim Senden.");
+      console.error(err);
+      alert('Fehler beim Senden.');
     });
 });
