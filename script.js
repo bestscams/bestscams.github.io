@@ -1,123 +1,101 @@
 emailjs.init("GG7YHgtAyAtoBSF8z");
 
-let emailCode = "";
+let currentCode = "";
 let sending = false;
 
-function generateRandomCode() {
-  return Math.floor(Math.random() * 900000 + 100000).toString();
+function generateCode() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
-function sendVerificationCode() {
+document.getElementById("sendCodeBtn").addEventListener("click", () => {
   if (sending) return;
 
-  const btn = document.getElementById("email-send-btn");
-  const loading = document.getElementById("loading-text");
   const email = document.getElementById("email").value.trim();
-
-  if (!email) {
-    showMessage("Bitte gib eine gültige E-Mail ein.", "error");
-    return;
-  }
+  if (!email) return alert("Bitte E-Mail eingeben.");
 
   sending = true;
-  btn.disabled = true;
-  loading.style.display = "block";
-
-  emailCode = generateRandomCode();
+  document.getElementById("status").textContent = "Lade...";
+  currentCode = generateCode();
 
   emailjs.send("service_5a0dtz7", "template_wj8fyb2", {
     to_email: email,
-    code: emailCode
+    code: currentCode
   }).then(() => {
-    showMessage("Code gesendet! Bitte prüfe dein Postfach.", "success");
-    document.getElementById("email-section").style.display = "none";
-    document.getElementById("code-section").style.display = "block";
-  }).catch((err) => {
-    console.error(err);
-    showMessage("Fehler beim Senden. Versuche es erneut.", "error");
+    document.getElementById("step-email").classList.add("hidden");
+    document.getElementById("step-code").classList.remove("hidden");
+  }).catch(() => {
+    alert("Fehler beim Senden der Mail.");
   }).finally(() => {
     sending = false;
-    btn.disabled = false;
-    loading.style.display = "none";
+    document.getElementById("status").textContent = "";
+  });
+});
+
+document.getElementById("verifyCodeBtn").addEventListener("click", () => {
+  const code = document.getElementById("verificationCode").value.trim();
+  if (code === currentCode) {
+    document.getElementById("step-code").classList.add("hidden");
+    document.getElementById("step-about").classList.remove("hidden");
+  } else {
+    document.getElementById("codeStatus").textContent = "❌ Falscher Code.";
+  }
+});
+
+function toggleHint(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle("collapsed");
+}
+
+function countWords(text) {
+  return text.trim().split(/\s+/).filter(w => w.length > 0).length;
+}
+
+function setupTextCounter(textareaId, counterId, buttonId) {
+  const textarea = document.getElementById(textareaId);
+  const counter = document.getElementById(counterId);
+  const button = document.getElementById(buttonId);
+
+  textarea.addEventListener("input", () => {
+    const wordCount = countWords(textarea.value);
+    counter.textContent = `${wordCount}/500`;
+    button.disabled = wordCount < 500;
   });
 }
 
-function verifyEmailCode() {
-  const user = document.getElementById("code-input").value.trim();
-  if (user === emailCode) {
-    showMessage("E-Mail bestätigt!", "success");
-    document.getElementById("code-section").style.display = "none";
-    document.getElementById("about-section").style.display = "block";
-    document.getElementById("main-title").style.display = "none";
-    setupWordCounter("about", "counter-about", "about-btn");
-  } else {
-    showMessage("Falscher Code.", "error");
-  }
-}
+setupTextCounter("aboutText", "wordCount1", "toWhyBtn");
+setupTextCounter("whyText", "wordCount2", "finishBtn");
 
-function setupWordCounter(textId, counterId, btnId) {
-  const ta = document.getElementById(textId);
-  const counter = document.getElementById(counterId);
-  const btn = document.getElementById(btnId);
+document.getElementById("toWhyBtn").addEventListener("click", () => {
+  document.getElementById("step-about").classList.add("hidden");
+  document.getElementById("step-why").classList.remove("hidden");
+});
 
-  const updateCounter = () => {
-    const words = ta.value.trim().split(/\s+/).filter(w => w).length;
-    counter.textContent = `${words}/500 Wörter`;
-    btn.disabled = words < 500;
-  };
-
-  ta.addEventListener("input", updateCounter);
-  updateCounter(); // Initial call
-}
-
-function nextSection() {
-  document.getElementById("about-section").style.display = "none";
-  document.getElementById("why-section").style.display = "block";
-  setupWordCounter("why", "counter-why", "why-btn");
-}
-
-function finish() {
-  document.querySelectorAll("#why-section, #main-title, #message").forEach(e => e.style.display = "none");
-  document.getElementById("success-section").style.display = "block";
-
-  const userEmail = document.getElementById("email").value.trim();
-  const aboutText = document.getElementById("about").value.trim();
-  const whyText = document.getElementById("why").value.trim();
+document.getElementById("finishBtn").addEventListener("click", () => {
+  const email = document.getElementById("email").value.trim();
+  const about = document.getElementById("aboutText").value.trim();
+  const why = document.getElementById("whyText").value.trim();
 
   fetch("https://api.ipify.org?format=json")
-    .then(response => response.json())
+    .then(res => res.json())
     .then(data => {
-      const userIP = data.ip;
+      const ip = data.ip;
 
-      // Zusammenfassungs-Mail an dich
-      emailjs.send("service_5a0dtz7", "template_wj8fyb2", {
-        user_email: userEmail,
-        about_text: aboutText,
-        why_text: whyText,
-        ip_address: userIP
-      }).then(() => {
-        console.log("Bewerbungsdaten erfolgreich gesendet.");
-      }).catch(error => {
-        console.error("Fehler beim Senden der Bewerbungsdaten:", error);
+      return emailjs.send("service_5a0dtz7", "template_dz9uqh6", {
+        user_email: email,
+        about_text: about,
+        why_text: why,
+        ip_address: ip
       });
-    }).catch(() => {
-      console.error("IP-Adresse konnte nicht abgerufen werden.");
+    })
+    .then(() => {
+      document.querySelector(".container").innerHTML = `
+        <div class="centerbox">
+          <h2>✅ Alles abgeschlossen!</h2>
+          <p>Deine Bewerbung wurde erfolgreich übermittelt.</p>
+        </div>`;
+    })
+    .catch(err => {
+      console.error("Fehler beim Senden der Zusammenfassung:", err);
+      alert("Fehler beim Senden.");
     });
-}
-
-function showMessage(msg, type) {
-  const el = document.getElementById("message");
-  el.textContent = msg;
-  el.className = type;
-}
-
-// Collapsible helper
-document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll(".collapsible").forEach(button => {
-    button.addEventListener("click", () => {
-      button.classList.toggle("active");
-      const content = button.nextElementSibling;
-      content.style.display = content.style.display === "block" ? "none" : "block";
-    });
-  });
 });
