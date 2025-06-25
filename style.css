@@ -1,78 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
+  background: #111;
+  color: #eee;
+  font-family: 'Press Start 2P', cursive;
   margin: 0;
-  padding: 40px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
 }
-
 .container {
-  max-width: 600px;
-  margin: auto;
-  background: white;
-  padding: 25px;
+  background: #000;
+  border: 2px solid #f00;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-input, textarea, button {
+  padding: 20px;
+  max-width: 600px;
   width: 100%;
+  box-shadow: 0 0 20px #f00;
+  animation: fadeIn 1s ease-in;
+}
+h1, h2, label {
+  color: #f00;
+  text-shadow: 1px 1px #900;
+}
+input, textarea, button {
+  font-family: 'Press Start 2P', cursive;
+  background: #111;
+  color: #eee;
+  border: 2px solid #f00;
+  border-radius: 4px;
   padding: 10px;
   margin-top: 12px;
-  font-size: 16px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color .3s, box-shadow .3s;
 }
-
-textarea {
-  height: 150px;
-  resize: vertical;
+input:focus, textarea:focus, button:hover:not(:disabled) {
+  border-color: #fff;
+  box-shadow: 0 0 8px #f00;
 }
-
 button {
-  background-color: #007bff;
-  color: white;
-  border: none;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
 }
-
 button:disabled {
-  background-color: #aaa;
+  color: #555;
+  border-color: #555;
   cursor: not-allowed;
 }
-
-.hidden {
-  display: none;
-}
-
-.hint {
-  background-color: #f0f8ff;
-  padding: 10px;
-  border-left: 4px solid #007bff;
+.link-button {
+  background: none;
+  border: none;
+  color: #f00;
   margin-top: 10px;
-  font-size: 14px;
+  cursor: pointer;
+  text-decoration: underline;
 }
-
+.step {
+  display: none;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+.step.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+.hint {
+  background: #220;
+  border-left: 4px solid #f00;
+  padding: 10px;
+  margin-top: 10px;
+}
 .collapsed {
   display: none;
 }
-
-.toggle-hint {
-  font-size: 14px;
-  background: none;
-  color: #007bff;
-  padding: 0;
-  margin-top: 10px;
-  border: none;
-  text-align: left;
-  cursor: pointer;
+.word-count {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #f00;
 }
-
-.centerbox {
-  text-align: center;
-}
-
-.link-button {
-  margin-top: 10px;
-  background-color: #eee;
-  color: #333;
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
 }
