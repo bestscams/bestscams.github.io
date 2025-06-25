@@ -2,66 +2,55 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Zertifizierung & Registrierung</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Zertifizierung und Registrierung</title>
+  <link rel="stylesheet" href="style.css"/>
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 </head>
 <body>
   <div class="container">
-    <h2 id="main-title">Zertifizierung & Registrierung</h2>
-
-    <div id="email-section">
-      <input type="email" id="email" placeholder="Deine E-Mail eingeben" required />
-      <button id="email-send-btn" onclick="sendVerificationCode()">Weiter</button>
-      <p id="loading-text" style="display:none">⏳ Wird geladen...</p>
+    <h1 id="form-title">Zertifizierung und Registrierung</h1>
+    
+    <div id="step-email">
+      <label for="email">E-Mail-Adresse:</label>
+      <input type="email" id="email" required />
+      <button id="sendCodeBtn">Weiter</button>
+      <p id="status"></p>
     </div>
 
-    <div id="code-section" style="display:none">
-      <input type="text" id="code-input" placeholder="E-Mail-Code eingeben" maxlength="6" />
-      <button onclick="verifyEmailCode()">Code prüfen</button>
+    <div id="step-code" class="hidden">
+      <label for="verificationCode">Bestätigungscode:</label>
+      <input type="text" id="verificationCode" maxlength="6"/>
+      <button id="verifyCodeBtn">Verifizieren</button>
+      <p id="codeStatus"></p>
     </div>
 
-    <div id="about-section" style="display:none">
-      <h2>Erzähle ein bisschen über dich (mindestens 500 Wörter)</h2>
-      <textarea id="about" rows="10"></textarea>
-      <div class="counter" id="counter-about">0/500 Wörter</div>
-      <button class="collapsible">Was sollte im Text vorhanden sein?</button>
-      <div class="content">
-        <ul>
-          <li>Alter</li>
-          <li>Name</li>
-          <li>Hobbys</li>
-          <li>Persönliche Interessen</li>
-          <li>Dein Tagesablauf</li>
-        </ul>
+    <div id="step-about" class="hidden">
+      <h1 id="form-title">Erzähle ein bisschen über dich (mindestens 500 Wörter):</h1>
+      <button class="toggle-hint" onclick="toggleHint('hint1')">Was soll im Text sein?</button>
+      <div class="hint collapsed" id="hint1">
+        Alter, Name, Hobbys, Hintergrund, Motivation usw.
       </div>
-      <button id="about-btn" onclick="nextSection()" disabled>Weiter</button>
+      <textarea id="aboutText"></textarea>
+      <div id="wordCount1">0/500</div>
+      <button id="toWhyBtn" disabled>Weiter</button>
     </div>
 
-    <div id="why-section" style="display:none">
-      <h2>Warum willst du dem Team beitreten?</h2>
-      <textarea id="why" rows="10"></textarea>
-      <div class="counter" id="counter-why">0/500 Wörter</div>
-      <button class="collapsible">Was soll vorhanden sein?</button>
-      <div class="content">
-        <ul>
-          <li>Begründung</li>
-          <li>Warum du geeignet bist</li>
-          <li>Wie du uns gefunden hast</li>
-          <li>Was dich an unserem Team begeistert</li>
-          <li>Was du beitragen kannst</li>
-        </ul>
+    <div id="step-why" class="hidden">
+      <h1 id="form-title">Warum willst du dem Team beitreten?</h1>
+      <button class="toggle-hint" onclick="toggleHint('hint2')">Was soll im Text sein?</button>
+      <div class="hint collapsed" id="hint2">
+        Begründung, Lol, Wie du uns gefunden hast usw.
       </div>
-      <button id="why-btn" onclick="finish()" disabled>Weiter</button>
+      <textarea id="whyText"></textarea>
+      <div id="wordCount2">0/500</div>
+      <button id="finishBtn" disabled>Absenden</button>
     </div>
 
-    <div id="success-section" style="display:none">
-      <h2>🎉 Registrierung abgeschlossen!</h2>
-      <p>Vielen Dank für deine Bewerbung. Wir melden uns bald bei dir!</p>
+    <div id="thankYou" class="hidden centerbox">
+      <h2>✅ Alles abgeschlossen!</h2>
+      <p>Deine Bewerbung wurde erfolgreich übermittelt.</p>
     </div>
-
-    <p id="message"></p>
   </div>
 
   <script src="script.js"></script>
