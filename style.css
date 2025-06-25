@@ -1,7 +1,7 @@
 body {
   background: #111;
   color: #eee;
-  font-family: 'Jersel 20', sans-serif;
+  font-family: 'Jersey 20', sans-serif;  /* korrigierter Schriftname */
   margin: 0;
   padding: 20px;
   display: flex;
@@ -27,11 +27,11 @@ h1, h2, label {
   text-shadow: 1px 1px #900;
   font-size: 14px;
   margin-bottom: 10px;
-  font-family: 'Jersel 20', sans-serif;
+  font-family: 'Jersey 20', sans-serif;
 }
 
 input, textarea, button {
-  font-family: 'Jersel 20', sans-serif;
+  font-family: 'Jersey 20', sans-serif;
   font-size: 10px;
   background: #111;
   color: #eee;
@@ -76,7 +76,7 @@ button:disabled {
   cursor: pointer;
   text-decoration: underline;
   font-size: 10px;
-  font-family: 'Jersel 20', sans-serif;
+  font-family: 'Jersey 20', sans-serif;
 }
 
 .step {
@@ -98,7 +98,7 @@ button:disabled {
   padding: 8px;
   margin-top: 8px;
   font-size: 10px;
-  font-family: 'Jersel 20', sans-serif;
+  font-family: 'Jersey 20', sans-serif;
 }
 
 .collapsed {
@@ -109,7 +109,7 @@ button:disabled {
   margin-top: 4px;
   font-size: 10px;
   color: #f00;
-  font-family: 'Jersel 20', sans-serif;
+  font-family: 'Jersey 20', sans-serif;
 }
 
 @media (max-width: 600px) {
@@ -125,5 +125,16 @@ button:disabled {
 
   h1, h2, label {
     font-size: 12px;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
