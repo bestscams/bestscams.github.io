@@ -1,6 +1,15 @@
 emailjs.init("GG7YHgtAyAtoBSF8z");
 let currentCode = "", codeGeneratedAt = 0, sending = false;
 
+window.addEventListener('DOMContentLoaded', () => {
+  // Splash → Nach 3 Sekunden geht's los
+  setTimeout(() => {
+    document.getElementById('splash').style.display = 'none';
+    document.querySelector('.container').style.display = 'block';
+    showStep('step-email');
+  }, 3000);
+});
+
 function generateCode() {
   codeGeneratedAt = Date.now();
   return Math.floor(100000 + Math.random() * 900000).toString();
@@ -103,4 +112,3 @@ function toggleHint(id) {
   const hint = document.getElementById(id);
   hint.classList.toggle('collapsed');
 }
-
