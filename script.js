@@ -98,3 +98,9 @@ document.getElementById('finishBtn').addEventListener('click', () => {
       alert('Fehler beim Senden.');
     });
 });
+
+function toggleHint(id) {
+  const hint = document.getElementById(id);
+  hint.classList.toggle('collapsed');
+}
+
