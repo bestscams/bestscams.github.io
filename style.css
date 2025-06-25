@@ -1,3 +1,4 @@
+/* Basiseinstellungen */
 body {
   background: #111;
   color: #eee;
@@ -8,6 +9,13 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  touch-action: manipulation;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
 }
 
 .container {
@@ -31,9 +39,10 @@ h1, h2, label {
 }
 
 input, textarea, button {
+  font-family: 'Press Start 2P', monospace;
   font-size: 10px;
   background: #111;
-  color: #eee;
+  color: #f00;
   border: 2px solid #f00;
   border-radius: 4px;
   padding: 8px;
@@ -42,11 +51,12 @@ input, textarea, button {
   outline: none;
   transition: border-color .3s, box-shadow .3s;
   width: 100%;
+  text-align: center;
 }
 
 textarea {
   resize: vertical;
-  min-height: 100px;
+  min-height: 200px;
 }
 
 input:focus, textarea:focus, button:hover:not(:disabled) {
@@ -59,6 +69,9 @@ button {
   position: relative;
   overflow: hidden;
   font-size: 10px;
+  background: #111;
+  color: #f00;
+  text-align: center;
 }
 
 button:disabled {
@@ -90,16 +103,21 @@ button:disabled {
   transform: translateY(0);
 }
 
+/* Hinweise mit Slide-Animation */
 .hint {
   background: #220;
   border-left: 4px solid #f00;
-  padding: 8px;
   margin-top: 8px;
   font-size: 10px;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.5s ease-out, padding 0.3s ease;
+  padding: 0 8px;
 }
 
-.collapsed {
-  display: none;
+.hint.open {
+  max-height: 300px;
+  padding: 8px;
 }
 
 .word-count {
@@ -148,7 +166,7 @@ button:disabled {
   }
 }
 
-/* Branding */
+/* Branding oben links */
 .branding {
   position: fixed;
   top: 10px;
@@ -160,8 +178,8 @@ button:disabled {
 }
 
 .branding img.logo-small {
-  width: 24px;
-  height: 24px;
+  width: 40px;
+  height: 40px;
   border-radius: 4px;
 }
 
