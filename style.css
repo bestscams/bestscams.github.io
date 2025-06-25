@@ -70,3 +70,9 @@ button:disabled {
 .centerbox {
   text-align: center;
 }
+
+.link-button {
+  margin-top: 10px;
+  background-color: #eee;
+  color: #333;
+}
